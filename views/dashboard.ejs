@@ -1,7 +1,49 @@
+    <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Home Page</title>
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+  </head>
+
+  <body>
+
   <%- include partials/_header %>
 
 
-Welcome, <%= name %>!
+Welcome, <%= cookie.id %>, <%= cookie.name %>!
+<table>
+<tr>
+<td>
+Your Lists
+</td>
+</tr>
+<%
+for (var i = 0; i < lists.length; i++) { %>
+<tr>
+<td>
+<a href="/lists/<%= lists[i].id %>"><%= lists[i].title %></a>
+<br>
+<%= lists[i].description %>
+<br>
+Created <%= lists[i].date_created %>
+ -
+<% if (lists[i].privacy === 0) { %>
+Public
+<% } else { %>
+Private
+<% }
 
-
+}
+%>
+</td>
+</tr>
+</table>
   <%- include partials/_footer %>

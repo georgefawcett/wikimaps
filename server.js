@@ -8,6 +8,7 @@ const express     = require("express");
 const bodyParser  = require("body-parser");
 const sass        = require("node-sass-middleware");
 const app         = express();
+const router  = express.Router();
 
 const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
@@ -49,12 +50,30 @@ app.use("/api/users", usersRoutes(knex));
 // Home page
 app.get("/", (req, res) => {
   if (req.session.user_id) {
-    const templateVars = { name: "George" };
+    knex
+      .select("*")
+      .from("lists")
+      .where("user_id", req.session.user.id)
+      .then((results) => {
+        const templateVars = { cookie: req.session.user,
+                                lists: results };
     res.render("dashboard", templateVars);
+    });
+
   } else {
   res.render("index");
   }
 });
+
+app.get("/home", (req, res) => {
+  if (req.session.user) {
+    const templateVars = { cookie: req.session.user };
+    res.render("dashboard", templateVars);
+  } else {
+  res.redirect("/login");
+  }
+});
+
 
 // Login page - form
 app.get("/login", (req, res) => {
@@ -62,24 +81,50 @@ app.get("/login", (req, res) => {
 });
 
 // Login page - action
-// app.post("/login", (req, res) => {
-//   const bcrypt = require('bcrypt');
-//   var match = 0;
-//   for (var user in users) {
-//     if (users[user].email === req.body.email && bcrypt.compareSync(req.body.password, users[user].password)) {
-//       req.session.user_id = user;
-//       match++;
-//     }
-//   }
-//   if (match === 0) {
-//     const userID = req.session.user_id;
-//     const templateVars = { urls: urlDatabase, user: users[userID], error: "userpasscombo" };
-//     res.status(403).render("urls_error", templateVars);
-//   } else {
-//     res.redirect("/urls");
-//   }
-// });
 
+app.post("/login", (req, res) => {
+
+   knex
+      .select("*")
+      .from("users")
+      .where("email", req.body.email)
+      .then(function(results) {
+        const bcrypt = require('bcrypt');
+        if (bcrypt.compareSync(req.body.password, results[0].password)) {
+
+          req.session.user = {"id": results[0].id,
+                              "name": results[0].name
+                            };
+
+          res.redirect("/");
+         }
+
+
+  });
+
+    });
+
+// List page
+app.get("/lists/:listID", (req, res) => {
+  knex
+      .select("*")
+      .from("lists")
+      .where("id", req.params.listID)
+      .then((listresults) => {
+            knex
+            .select("*")
+            .from("points")
+            .where("list_id", req.params.listID)
+                .then((results) => {
+                              const templateVars = { cookie: req.session.user,
+                                points: results,
+                                list: listresults };
+                        res.render("lists", templateVars);
+                  });
+
+        });
+
+});
 
 // Logout
 app.post("/logout", (req, res) => {
@@ -110,12 +155,16 @@ app.post("/register", (req, res) => {
       .returning("id")
       .into("users")
       .then(function (id) {
-        return console.log(id, req.body.name, req.body.email, req.body.image, req.body.password);
+        req.session.user = {"id": id,
+                              "name": req.body.name
+                            };
+
+    res.redirect("/");
     });
-      req.session.user_id = newUser;
+
     }
 
-  res.redirect("/");
+
 });
 
 
