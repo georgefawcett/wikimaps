@@ -1,0 +1,17 @@
+body {
+  background-color: #EEE;
+  }
+
+  .navbar {
+  position: fixed;
+  top: 0;
+  color: black;
+  height: 40px;
+  width: 100%;
+  border: 1px solid black
+  }
+
+  h1 {
+    color: #244751;
+  }
+
