@@ -6,11 +6,6 @@ body {
   background-position: center;
   color: white;
 
-
-  h1 {
-    color: white; //#244751;
-  }
-
   #nav-bar {
     position: fixed;
     height: 80px;
@@ -29,14 +24,14 @@ body {
 
     button{
       float: right;
-      margin: 14px 0px;
+      margin: 1.5em 0;
       border-radius: 7px;
-      height: 2.5em;
-      width: 7em;
+      height: 2em;
+      width: 5em;
       background-color: rgba(255, 255, 255, 0.93);
       /*color: #00a087;*/
       color: black;
-      font-size: 125%;
+      font-size: 100%;
       border-color: black;
       border-width: thin;
       font-weight: lighter;
@@ -45,6 +40,24 @@ body {
       margin-right: 5px;
     }
 
+  }
+  #new-list{
+    float: right;
+    margin: 100px 10px 0 0;
+    border-radius: 7px;
+    height: 2em;
+    width: 7em;
+    background-color: white;
+    /*color: #00a087;*/
+    color: black;
+    font-size: 100%;
+    border-color: black;
+    border-width: thin;
+    font-weight: lighter;
+    outline:none;
+  }
+  #new-list:hover{
+    cursor: pointer;
   }
 
 }
