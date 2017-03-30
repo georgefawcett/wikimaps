@@ -1,0 +1,35 @@
+  <%- include partials/_header %>
+
+<table>
+  <tr>
+    <td colspan="100%">
+    <b>Login</b>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <form action="/login" method="POST">
+      <label for="email">E-mail:</label>
+    </td>
+    <td>
+      <input id="email" type="email" name="email" style="width: 150px">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="password">Password:</label>
+    </td>
+    <td>
+      <input id="password" type="password" name="password" style="width: 150px">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="100%" align="center">
+      <input type="submit" value="Login">
+      </form>
+    </td>
+  </tr>
+</table>
+
+
+<%- include partials/_footer %>
