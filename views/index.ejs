@@ -1,43 +1,20 @@
-  <!DOCTYPE html>
+<<<<<<< HEAD
+
+
+
+=======
+<!DOCTYPE html>
 <html lang="en">
   <head>
+    <%- include partials/_header%>
     <title>Home Page</title>
-
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
-
   </head>
 
   <body>
-
-  <%- include partials/_header %>
-
-
-    <h1>Hello World!</h1>
-    <div id="map"></div>
-
-    <script>
-    var map = L.map('map').setView([42.35, -71.08], 13);
-
-  // load a tile layer
-  L.tileLayer('http://tiles.mapc.org/basemap/{z}/{x}/{y}.png',
-    {
-      attribution: 'Tiles by <a href="http://mapc.org">MAPC</a>, Data by <a href="http://mass.gov/mgis">MassGIS</a>',
-      maxZoom: 17,
-      minZoom: 9
-    }).addTo(map);
-    </script>
-
-
-
-
-
- <%- include partials/_footer %>
-
+    <%- include partials/_navbar%>
+    <button id="new-list"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New List</button>
+    <%- include partials/_footer %>
+  </body>
+</html>
+>>>>>>> c3af168441e80e19f8b7a72fe183826f9b0be373
 

@@ -14,6 +14,11 @@ module.exports = (knex) => {
     });
   });
 
+  router.get("/newlist", (req,res) => {
+    console.log("get req on /newlist");
+    res.render("newlist");
+  })
+
   return router;
 
 }

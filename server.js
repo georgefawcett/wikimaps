@@ -15,14 +15,6 @@ const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 
-
-const cookieSession = require('cookie-session')
-app.use(cookieSession({
-  name: 'session',
-  keys: ['user_id'], //
-  maxAge: 24 * 60 * 60 * 1000 // 24 hours
-}))
-
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 
@@ -49,6 +41,7 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
+<<<<<<< HEAD
   if (req.session.user_id) {
     knex
       .select("*")
@@ -170,6 +163,10 @@ app.post("/register", (req, res) => {
 
 
 
+=======
+
+
+>>>>>>> c3af168441e80e19f8b7a72fe183826f9b0be373
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });

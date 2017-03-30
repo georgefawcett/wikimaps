@@ -1,0 +1,63 @@
+body {
+  background-color: #EEE;
+  height: 100%;
+  width:100%;
+  //background-image: url(https://blog.bizweb.vn/wp-content/uploads/2016/07/google-map-api-thay-doi-cach-tinh-phi-1.jpg);
+  background-position: center;
+  color: white;
+
+  #nav-bar {
+    position: fixed;
+    height: 80px;
+    width: 100%;
+    background-color: #000;
+    color: #000;
+    padding-left: 2em;
+    padding-right: 2em;
+
+    .header {
+      padding-left: 10px;
+      font-size: 200%;
+      line-height: 80px;
+      color: white;
+    }
+
+    button{
+      float: right;
+      margin: 1.5em 0;
+      border-radius: 7px;
+      height: 2em;
+      width: 5em;
+      background-color: rgba(255, 255, 255, 0.93);
+      /*color: #00a087;*/
+      color: black;
+      font-size: 100%;
+      border-color: black;
+      border-width: thin;
+      font-weight: lighter;
+      outline:none;
+      margin-left:5px;
+      margin-right: 5px;
+    }
+
+  }
+  #new-list{
+    float: right;
+    margin: 100px 10px 0 0;
+    border-radius: 7px;
+    height: 2em;
+    width: 7em;
+    background-color: white;
+    /*color: #00a087;*/
+    color: black;
+    font-size: 100%;
+    border-color: black;
+    border-width: thin;
+    font-weight: lighter;
+    outline:none;
+  }
+  #new-list:hover{
+    cursor: pointer;
+  }
+
+}
