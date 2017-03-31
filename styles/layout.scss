@@ -21,13 +21,19 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
   height: 100%;
   width:100%;
   background-position: center;
-  color: white;
+  color: black;
+  padding-top: 100px;
+
+  .mandatory {
+    color: red;
+  }
 
   #nav-bar {
     position: fixed;
     top: 0;
     height: 80px;
     width: 100%;
+    top: 0;
     background-color: #000;
     color: #fff;
     padding-left: 2em;
@@ -105,6 +111,7 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
     position: absolute;
 
   }
+
   #dashboard:hover {
     background-color: #ff471a;
   }
@@ -118,23 +125,64 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
   }
 
 }
-  #new-list{
-    float: right;
-    margin: 100px 10px 0 0;
-    border-radius: 7px;
-    height: 2em;
-    width: 7em;
-    background-color: white;
-    /*color: #00a087;*/
-    color: black;
-    font-size: 100%;
-    border-color: black;
-    border-width: thin;
-    font-weight: lighter;
-    outline:none;
+
+   #new-list{
+     float: right;
+  //   //margin: 100px 10px 0 0;
+  //   border-radius: 7px;
+  //   height: 2em;
+  //   width: 7em;
+  //   background-color: white;
+  //   /*color: #00a087;*/
+  //   color: black;
+  //   font-size: 100%;
+    // border-color: black;
+  //   border-width: thin;
+  //   font-weight: lighter;
+  //   outline:none;
+  // }
+  // #new-list:hover{
+  //   cursor: pointer;
+   }
+
+  #main-wrap > div { min-height: 450px; }
+
+
+  // #header,
+  // #footer {
+  //     min-height: 40px;
+  // }
+
+/* layout */
+  #maindiv {
+      /* overflow to handle inner floating block */
+      overflow: hidden;
+      min-height: 100%;
+      min-width:100%;
+
   }
-  #new-list:hover{
-    cursor: pointer;
+
+  #leftpane {
+      float: left;
+      min-width: 50%;
+      min-height: 100%;
+
+  }
+
+  #rightpane {
+      float: right;
+      min-width: 50%;
+      min-height: 100%;
+  }
+
+  #form {
+    table{
+      border-collapse: collapse;
+      td{
+        padding-top: .5em;
+        padding-bottom: .5em;
+      }
+    }
   }
 
   #map {
@@ -277,3 +325,6 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
   margin-top: 10px;
 }
 }
+
+
+

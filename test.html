@@ -1,0 +1,80 @@
+
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+   <title>Try v1.2 Bootstrap Online</title>
+</head>
+<body>
+
+<h2>Example of creating Modals with Twitter Bootstrap</h2>
+
+<!-- Button trigger modal -->
+<button class = "btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
+   Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class = "modal fade" id = "myModal" tabindex = "-1" role = "dialog"
+   aria-labelledby = "myModalLabel" aria-hidden = "true" style="padding:10px;">
+
+   <div class = "modal-dialog">
+      <div class = "modal-content">
+
+         <div class = "modal-header">
+            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                  &times;
+            </button>
+
+            <h4 class = "modal-title" id = "myModalLabel">
+               New List
+            </h4>
+         </div>
+
+         <form role = "form">
+            <div class = "form-group">
+               <label for = "title">Title<em class="mandatory" style="color:red">*</em></label>
+               <input type = "text" class = "form-control" id = "listTitle" placeholder = "Enter the title of your list">
+            </div>
+
+            <div class = "form-group">
+               <label for = "desc">Description</label>
+               <input type = "text" class = "form-control" id = "listDesc" placeholder = "Description about list">
+            </div>
+
+            <label for="visibility">Visibility</label>&nbsp;&nbsp;
+            <label class="radio-inline"><input type="radio" name="visibility" value="public">Public</label>
+            <label class="radio-inline"><input type="radio" name="visibility" value="private">Private</label>
+
+            <div class = "form-group">
+               <p class = "help-block">upload image</p>
+               <input type = "file" id = "inputfile">
+            </div>
+
+            <button id="createListButton" type = "submit" class = "btn btn-default">Submit</button>
+         </form>
+
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+   $("#createListButton").click(function(event){
+      alert("clicked")
+      alert($("input[name='visibility']:checked").val())
+   })
+</script>
+
+</body>
+</html>

@@ -4,10 +4,45 @@
     <title>Create New List</title>
     <%- include partials/_header%>
   </head>
-  <body>
-    <%- include partials/_navbar%>
-    <div id="body">
-
+  <body onload = "initMap()">
+  <%- include partials/_navbar%>
+  <div id="maindiv" >
+  <div id="leftpane">
+    <div id="map" style="width: 600px;height:500px; margin-left:10px;"></div>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box" style="width:380px;height:30px;font-size:1.5em;">
+    <div id="form" style="display:none;">
+      <table>
+        <tr>
+          <td>Title:</td>
+          <td><input type='text' id='pt-name'/> </td>
+        </tr>
+        <tr>
+          <td>Address:</td>
+          <td><input type='text' id='pt-address'/> </td>
+        </tr>
+        <tr>
+          <td>Description:</td>
+          <td><input type='text' id='pt-description'/> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:center"><input id="save-loc" type='button' value='Save'/></td>
+        </tr>
+      </table>
+      </div>
+      <div id="message" style="display:none;">Location saved</div>
     </div>
-  </body>
+
+  <div id="rightpane" data-list-id="<%= listid %>">
+    <p>Title : <%=title%></p>
+    <p>Description : <%= desc %></p>
+    <% if(privacy){ %>
+    <p>Privacy : private </p>
+    <% } else { %>
+    <p>Privacy : public </p>
+    <% } %>
+    <div id="ptList">
+    </div>
+  </div>
+    </div>
+    </body>
 </html>
