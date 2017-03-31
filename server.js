@@ -41,7 +41,6 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-<<<<<<< HEAD
   if (req.session.user_id) {
     knex
       .select("*")
@@ -160,13 +159,6 @@ app.post("/register", (req, res) => {
 
 });
 
-
-
-
-=======
-
-
->>>>>>> c3af168441e80e19f8b7a72fe183826f9b0be373
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
