@@ -176,10 +176,10 @@ function initMap() {
         type: "POST",
         data: ptDetails,
         success:(res) => {
-          //console.log(res[0].address);
-          $ptList = $('#ptList');
-          $ptDiv = $("<div>").addClass("location");
-          $ptDiv.append($("<p>").text(res.))
+          alert(res[0].address);
+          // $ptList = $('#ptList');
+          // $ptDiv = $("<div>").addClass("location");
+          // $ptDiv.append($("<p>").text(res.))
 
         }
       })

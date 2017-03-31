@@ -61,7 +61,8 @@ app.get("/", (req, res) => {
     });
 
   } else {
-  res.render("index");
+    const templateVars = { cookie: req.session.user};
+  res.render("index", templateVars);
   }
 });
 

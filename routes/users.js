@@ -58,7 +58,7 @@ module.exports = (knex) => {
     .select()
     .from('lists')
     .then((row) => {
-      res.render("newlist",{listid:req.params.listid, title: row[0].title, desc: row[0].description, privacy: row[0].privacy});
+      res.render("newlist",{listid:req.params.listid, title: row[0].title, desc: row[0].description, privacy: row[0].privacy, cookie: req.session.user});
     })
 
   })
