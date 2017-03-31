@@ -4,12 +4,18 @@ body {
   width:100%;
   //background-image: url(https://blog.bizweb.vn/wp-content/uploads/2016/07/google-map-api-thay-doi-cach-tinh-phi-1.jpg);
   background-position: center;
-  color: white;
+  color: black;
+  padding-top: 100px;
+
+  .mandatory {
+    color: red;
+  }
 
   #nav-bar {
     position: fixed;
     height: 80px;
     width: 100%;
+    top: 0;
     background-color: #000;
     color: #000;
     padding-left: 2em;
@@ -41,23 +47,65 @@ body {
     }
 
   }
-  #new-list{
-    float: right;
-    margin: 100px 10px 0 0;
-    border-radius: 7px;
-    height: 2em;
-    width: 7em;
-    background-color: white;
-    /*color: #00a087;*/
-    color: black;
-    font-size: 100%;
-    border-color: black;
-    border-width: thin;
-    font-weight: lighter;
-    outline:none;
+   #new-list{
+     float: right;
+  //   //margin: 100px 10px 0 0;
+  //   border-radius: 7px;
+  //   height: 2em;
+  //   width: 7em;
+  //   background-color: white;
+  //   /*color: #00a087;*/
+  //   color: black;
+  //   font-size: 100%;
+    // border-color: black;
+  //   border-width: thin;
+  //   font-weight: lighter;
+  //   outline:none;
+  // }
+  // #new-list:hover{
+  //   cursor: pointer;
+   }
+
+  #main-wrap > div { min-height: 450px; }
+
+
+  // #header,
+  // #footer {
+  //     min-height: 40px;
+  // }
+
+/* layout */
+  #maindiv {
+      /* overflow to handle inner floating block */
+      overflow: hidden;
+      min-height: 100%;
+      min-width:100%;
   }
-  #new-list:hover{
-    cursor: pointer;
+
+  #leftpane {
+      float: left;
+      min-width: 50%;
+      min-height: 100%;
+
+  }
+
+  #rightpane {
+      float: right;
+      min-width: 50%;
+      min-height: 100%;
+  }
+
+  #form {
+    table{
+      border-collapse: collapse;
+      td{
+        padding-top: .5em;
+        padding-bottom: .5em;
+      }
+    }
   }
 
 }
+
+
+
