@@ -3,82 +3,138 @@
   <head>
     <title>Home Page</title>
 
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZRcKZN36IEIpoFJdj_c8Z9YMB4X3cb9Q">
-    <script type="text/javascript" src="/scripts/app.js"></script>
-
-    <script>
-function initialize() {
-  var mapProp = {
-    center:new google.maps.LatLng(51.508742,-0.120850),
-    zoom:5,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-  var map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
-
+ <%- include partials/_header %>
 
   </head>
 
   <body>
 
+  <%- include partials/_navbar %>
 
-  <%- include partials/_header %>
-
-<table>
+<table id="display">
   <tr>
-    <td>
-      <table>
-        <tr>
-          <td>
-            <div id="map"></div>
-    <script>
-      var map;
+    <td rowspan="100%">
+
+
+            <div id="map" onload="drop()"></div>
+
+   <script>
+
+    var map;
+
+    // Convert locations array from EJS variable to readable JS variable
+      var pointslist = <%-JSON.stringify(points)%>;
+
+    // Set marker labels/letters to loop through
+      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var labelIndex = 0;
+
+    // Initiate Google Map
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
+          zoom: 6,
+          center: new google.maps.LatLng(pointslist[0].x,pointslist[0].y),
+          mapTypeId: 'terrain'
         });
+
+    // Loop through the results array and place a marker for each
+    // set of coordinates.
+        var markers = [];
+        for (var i = 0; i < pointslist.length; i++) {
+
+            var latLng = new google.maps.LatLng(pointslist[i].x,pointslist[i].y);
+            markers.push(new google.maps.Marker({
+              position: latLng,
+              label: labels[labelIndex++ % labels.length],
+              animation: google.maps.Animation.DROP,
+              map: map
+            }));
+
+        }
+
       }
+
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZRcKZN36IEIpoFJdj_c8Z9YMB4X3cb9Q&callback=initMap"
-    async defer></script>
 
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZRcKZN36IEIpoFJdj_c8Z9YMB4X3cb9Q&callback=initMap">
+    </script>
 
+    </td>
+    <td valign="top">
+      <table class="list">
+        <tr>
+          <th colspan="2">
+          <%= list[0].title %>
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </th>
+          <th>
+          </th>
+        </tr>
+        <tr>
+          <td class="secondrow" colspan="3">
+          <b><%= points.length%></b> locations&nbsp&nbsp;&nbsp;|&nbsp&nbsp;&nbsp;Created by <b>you</b> on March 30, 2016
           </td>
         </tr>
+        <%
+        var listLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var listLabelIndex = 0;
+        for (var i = 0; i < points.length; i++) { %>
+        <tr class="listrow">
+          <td class="listlabel" id="marker_info">
+            <%= listLabels[listLabelIndex++ % listLabels.length] %>
+          </td>
+          <td class="listrow">
+            <font class="namefont">
+              <%= points[i].name %>
+            </font>
+            <br>
+            <font class="addressfont">
+              <%= points[i].address %>
+            </font>
+            <br>
+            <font class="descfont">
+              <%= points[i].description %>
+            </font>
+            <br>
+            <font class="datefont">
+              <%= points[i].added_date %>
+            </font>
+          </td>
+          <td class="listrow">
+            <img id="listPhoto" src="http://css1.www.cntower.ca/site_Files/Content/IMG/lookout_gallery/ImageThumbnailSize/CNTower-View-From-The-Lookout_0_0_.jpg">
+          </td>
+        </tr>
+
+        <% } %>
       </table>
-    </td>
-    <td>
-      <table>
-<tr>
-<td>
-<%= list[0].title %>
 </td>
-</tr>
-<%
-for (var i = 0; i < points.length; i++) { %>
-<tr>
-<td>
-<%= points[i].name %>
-<br>
-<%= points[i].address %>
-<br>
-<%= points[i].description %>
-<br>
-<%= points[i].added_date %>
 
-</td>
-</tr>
+<td valign="top">
 
-<% } %>
-</table>
+  <table id="privacy">
+    <tr>
+      <td class="public">
+        <b>Public List</b><br>
+        Public can view and edit
+      </td>
+    </tr>
+    <tr>
+      <td class="viewonly">
+        <b>View Only</b><br>
+        Public can view only
+      </td>
+    </tr>
+    <tr>
+      <td class="private">
+        <b>Private</b><br>
+        Only you can see this list
+      </td>
+    </tr>
+  </table>
+
+
 </td>
 </tr>
 </table>

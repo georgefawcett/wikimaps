@@ -1,6 +1,25 @@
 
+
 <nav id="nav-bar">
   <span class="header">WikiMaps</span>
-  <button>Log in</button>
+
+  <%
+  if (cookie) {
+  %>
+  <a id="dashboard" href="/">Dashboard</a>
+<span id="welcome">
+<font style="color: #cccccc">Logged in as:</font> <font style="color: white"><%=cookie.name %></font></span>
+
+  <button>Logout</button>
+    <button id="startButton">Start New List</button>
+  <%
+  } else {
+%>
+Not logged in
+<button>Log in</button>
   <button>Sign up </button>
+<%
+  }
+  %>
+
 </nav>
