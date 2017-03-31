@@ -8,7 +8,56 @@
 
   <body>
     <%- include partials/_navbar%>
-    <button id="new-list"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New List</button>
+    <button id="new-list" class = "btn btn-default" data-toggle = "modal" data-target = "#createListModal">
+      <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New List
+    </button>
+
+    <!-- Modal -->
+    <div class = "modal fade" id = "createListModal" tabindex = "-1" role = "dialog"
+       aria-labelledby = "myModalLabel" aria-hidden = "true" style="padding:10px;">
+
+       <div class = "modal-dialog">
+          <div class = "modal-content">
+
+             <div class = "modal-header">
+                <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                      &times;
+                </button>
+
+                <h4 class = "modal-title" id = "myModalLabel">
+                   New List
+                </h4>
+             </div>
+
+             <form role = "form" id="formCreateList">
+                <div class = "form-group">
+                   <label for = "title">Title<em class="mandatory" style="color:red">*</em></label>
+                   <input type = "text" class = "form-control" id = "listTitle" placeholder = "Enter the title of your list">
+                </div>
+
+                <div class = "form-group">
+                   <label for = "desc">Description</label>
+                   <input type = "text" class = "form-control" id = "listDesc" placeholder = "Description about list">
+                </div>
+
+                <div class = "form-group">
+                  <label for="visibility">Visibility</label>&nbsp;&nbsp;
+                  <label class="radio-inline"><input class="radio-inline" type="radio" name="visibility" value="0">Public</label>
+                  <label class="radio-inline"><input class="radio-inline" type="radio" name="visibility" value="1">Private</label>
+                </div>
+
+                <div class = "form-group">
+                   <p class = "help-block">upload image</p>
+                   <input type = "file" id = "inputfile">
+                </div>
+
+                <button id="createListButton" type = "submit" class = "btn btn-default">Submit</button>
+             </form>
+
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+
+    </div><!-- /.modal -->
     <%- include partials/_footer %>
   </body>
 </html>
