@@ -8,58 +8,85 @@
   </head>
 
   <body>
+
     <%- include partials/_navbar%>
-    <!-- <button id="new-list" class = "btn btn-default" data-toggle = "modal" data-target = "#createListModal"> -->
-      <!-- <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New List -->
-    </button>
 
-    <!-- Modal -->
-    <div class = "modal fade" id = "createListModal" tabindex = "-1" role = "dialog"
-       aria-labelledby = "myModalLabel" aria-hidden = "true" style="padding:10px;">
 
-       <div class = "modal-dialog">
-          <div class = "modal-content">
 
-             <div class = "modal-header">
-                <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
-                      &times;
-                </button>
+<table>
+<tr>
+<td class="frontpage" width="50%" bgcolor="white">
+<img src="http://www.casstudentcentral.org/assets/_control/content/images/gps%20map%281%29.jpg" width="100%">
+</td>
+<td class="frontpage" bgcolor="white">
 
-                <h4 class = "modal-title" id = "myModalLabel">
-                   New List
-                </h4>
-             </div>
+<ul>
+<li>Create and manage lists of your favourite places</li>
+<li>Share your maps and contribute to public lists</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="frontpage" colspan="2"></td>
+</tr>
+<tr>
+<td class="frontpage" bgcolor="white" colspan="2">
+Featured Lists:
 
-             <form role = "form" id="formCreateList">
-                <div class = "form-group">
-                   <label for = "title">Title<em class="mandatory" style="color:red">*</em></label>
-                   <input type = "text" class = "form-control" id = "listTitle" placeholder = "Enter the title of your list">
-                </div>
+<table width="100%" class="featured">
+<tr>
+<td width="31%">
 
-                <div class = "form-group">
-                   <label for = "desc">Description</label>
-                   <input type = "text" class = "form-control" id = "listDesc" placeholder = "Description about list">
-                </div>
 
-                <div class = "form-group">
-                  <label for="visibility">Visibility</label>&nbsp;&nbsp;
-                  <label class="radio-inline"><input class="radio-inline" type="radio" name="visibility" value="0" checked="">Public</label>
-                  <label class="radio-inline"><input class="radio-inline" type="radio" name="visibility" value="1">Private</label>
-                </div>
 
-                <div class = "form-group">
-                   <p class = "help-block">upload image</p>
-                   <input type = "file" id = "inputfile">
-                </div>
+          <div id="noListPhoto"><i class="fa fa-globe" aria-hidden="true"></i></div>
+          <font style="font-size: 120%"><a href="/lists/">Favourite place list # 1</a></font>
+          <br>
+          The CN Tower (French: Tour CN) is a 553.3 m-high (1,815.3 ft) concrete communications .
+          <br>
 
-                <button id="createListButton" type = "submit" class = "btn btn-default">Submit</button>
-             </form>
+          <font class="timeago">Created by George on March 31, 2017
+          </font>
 
-          </div><!-- /.modal-content -->
-       </div><!-- /.modal-dialog -->
+</td>
+<td width="3%" style="border:none"></td>
+<td width="32%">
 
-    </div><!-- /.modal -->
-    <%- include partials/_footer %>
+<div id="noListPhoto"><i class="fa fa-globe" aria-hidden="true"></i></div>
+          <font style="font-size: 120%"><a href="/lists/">Favourite place list # 1</a></font>
+          <br>
+          The CN Tower (French: Tour CN) is a 553.3 m-high (1,815.3 ft) concrete communications and
+          <br>
+
+          <font class="timeago">Created by George on March 31, 2017
+          </font>
+
+</td>
+
+<td width="3%" style="border:none"></td>
+
+<td width="31%">
+
+<div id="noListPhoto"><i class="fa fa-globe" aria-hidden="true"></i></div>
+          <font style="font-size: 120%"><a href="/lists/">Favourite place list # 1</a></font>
+          <br>
+          The CN Tower (French: Tour CN) is a 553.3 m-high (1,815.3 ft) concrete communications and
+          <br>
+
+          <font class="timeago">Created by George on March 31, 2017
+          </font>
+
+
+</td>
+
+</tr>
+</table>
+
+
+</td>
+</tr>
+</table>
+ <%- include partials/_footer %>
   </body>
 </html>
 

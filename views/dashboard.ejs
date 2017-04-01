@@ -1,49 +1,200 @@
-    <!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Home Page</title>
 
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
+ <%- include partials/_header %>
+
   </head>
 
   <body>
 
-  <%- include partials/_header %>
+  <%- include partials/_navbar %>
 
 
-Welcome, <%= cookie.id %>, <%= cookie.name %>!
-<table>
+  <table id="display">
+  <tr>
+  <td id="profile" width="19%">
+  <font class="profileName">
+<%=user.name%>
+  </font>
+  <br>
+  <img class="profileImage" src="https://lh6.googleusercontent.com/-2lJYGtfXKwQ/AAAAAAAAAAI/AAAAAAAB2HQ/QSmIw0nQN_c/s0-c-k-no-ns/photo.jpg">
+  Joined: <%= user.date_joined%><br>
+  Lists Created: <%= list.length %><br>
+  Favourites: <%= fav.length %><br>
+  Public Contributions: <%= cont.length %><br>
+
+
+
+
+  </td>
+
+  <td width="2%"></td>
+  <td width="37%" valign="top">
+
+    <table class="list" width="100%">
+      <tr>
+        <th>
+          Activity Feed
+        </th>
+      </tr>
+
+
+<%
+// Combine recent New Lists and Contributors into one array and re-sort
+// by descending date for Activity Feed
+
+ var activity = publicList.concat(publicCont);
+ activity.sort(function(a, b) {
+    a = new Date(a.date_created);
+    b = new Date(b.date_created);
+    return a>b ? -1 : a<b ? 1 : 0;
+});
+
+console.log(activity);
+// Loop through Activity array, determine if it's a new list or contribution,
+// and format output accordingly
+
+for (i = 0; i < activity.length; i++) {
+
+%>
+
 <tr>
-<td>
-Your Lists
+<td class="feedrow">
+
+<%
+if (activity[i].listid) {
+
+%>
+<a href="/users/<%=activity[i].id%>"><%=activity[i].name%></a> added a new list, <a href="/lists/<%=activity[i].listid%>"><%=activity[i].title%></a>
+<br>
+<%=activity[i].date_created %>
+<br>
+<%
+} else {
+// if activity was a contribution
+
+%>
+
+<%=activity[i].name%> contributed to <%=activity[i].title%>
+<br>
+<%=activity[i].date_created %>
+<%
+}
+%>
+
 </td>
 </tr>
 <%
-for (var i = 0; i < lists.length; i++) { %>
-<tr>
-<td>
-<a href="/lists/<%= lists[i].id %>"><%= lists[i].title %></a>
-<br>
-<%= lists[i].description %>
-<br>
-Created <%= lists[i].date_created %>
- -
-<% if (lists[i].privacy === 0) { %>
-Public
-<% } else { %>
-Private
-<% }
-
 }
 %>
-</td>
-</tr>
-</table>
-  <%- include partials/_footer %>
+
+
+    </table>
+
+  </td>
+  <td width="2%"></td>
+  <td width="40%" valign="top">
+
+    <table class="list" width="100%">
+      <tr>
+        <th>
+          Favourite Lists
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <%
+          for (var i = 0; i < fav.length; i++) {
+
+          // Check to see if favourited list was created by the logged-in user
+          // If so, change to "you"
+
+          if (fav[i].name === user.name) {
+          fav[i].name = "you";
+          }
+          %>
+          <a href="/lists/<%=fav[i].list_id%>"><%= fav[i].title %></a>
+          <br>
+          <%=fav[i].description%>
+          <br>
+          Created by <a href="<%=fav[i].id%>"><%=fav[i].name%></a>
+          <%
+          }
+          %>
+
+        </td>
+      </tr>
+    </table>
+
+  </td>
+  </tr>
+  <tr>
+<td></td>
+<td></td>
+  <td valign="top">
+
+    <table class="list" width="100%">
+      <tr>
+        <th>
+          Your Lists
+        </th>
+      </tr>
+      <tr>
+        <td>
+        <%
+          for (var i = 0; i < list.length; i++) {
+  %>
+<a href="/lists/<%=list[i].list_id%>"><%= list[i].title %></a>
+<br>
+<%=list[i].description%>
+<br>
+Created on <%=list[i].date_created%>
+<br>
+  <%
+}
+%>
+        </td>
+      </tr>
+    </table>
+
+  </td>
+  <td></td>
+  <td valign="top">
+
+    <table class="list" width="100%">
+      <tr>
+        <th>
+          Your Contributions
+        </th>
+      </tr>
+      <tr>
+      <td>
+      <%
+for (var i = 0; i < cont.length; i++) {
+  %>
+<a href="/lists/<%=cont[i].list_id%>"><%= cont[i].title %></a>
+<br>
+You contributed on March 30, 2017
+  <%
+}
+%>
+
+      </td>
+      </tr>
+    </table>
+
+  </td>
+
+
+
+  </tr>
+  </table>
+
+
+
+
+
+
+   <%- include partials/_footer %>

@@ -11,100 +11,155 @@
 
   <%- include partials/_navbar %>
 
+<%
+// Function to convert timestamp to number of minutes, etc ago
+
+function timeSince(date) {
+
+    var seconds = Math.floor((new Date() - date) / 1000);
+
+    var interval = Math.floor(seconds / 31536000);
+
+    if (interval > 1) {
+        return interval + " years ago";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return interval + " months ago";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return interval + " days ago";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return interval + " hours ago";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return interval + " minutes ago";
+    }
+    return Math.floor(seconds) + " seconds ago";
+    }
+
+function timeFormat(date) {
+  var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+
+var month = monthNames[date.getMonth()];
+
+  var day = date.getDate();
+
+  var year = date.getFullYear();
+  return month + ' ' + day + ', ' + year;
+}
+%>
+
 
   <table id="display">
   <tr>
-  <td id="profile" width="19%">
+  <td width="18%" valign="top">
+
+    <table>
+      <tr>
+        <td id="profile">
+
   <font class="profileName">
 <%=user.name%>
   </font>
   <br>
-  <img class="profileImage" src="https://lh6.googleusercontent.com/-2lJYGtfXKwQ/AAAAAAAAAAI/AAAAAAAB2HQ/QSmIw0nQN_c/s0-c-k-no-ns/photo.jpg">
-  Joined: <%= user.date_joined%><br>
-  Lists Created: <%= list.length %><br>
-  Favourites: <%= fav.length %><br>
-  Public Contributions: <%= cont.length %><br>
 
+  <%
+  //Check to see if user has a profile picture; if not, display generic div
 
+  if (user.image) {
+%>
+  <img class="profileImage" src="<%=user.image%>">
+  <%
+  } else {
+  %>
+<div class="noProfilePic">
+<i class="fa fa-user" aria-hidden="true"></i>
+</div>
+  <%
+  }
+  %>
+
+  <font class="profileinfo">
+  <b>Joined:</b>
+  <%= timeFormat(user.date_joined)%><br>
+  <b>Lists Created:</b> <%= list.length %><br>
+ <b>Contributions:</b> <%= cont.length %><br>
+ <b>Favourites:</b> <%= fav.length %><br>
+  </font>
+
+      </td>
+    </tr>
+  </table>
 
 
   </td>
 
-  <td width="2%"></td>
-  <td width="37%" valign="top">
+  <td width="3%"></td>
+  <td width="48%" valign="top">
 
+  <div style="height: 375px; overflow:scroll; border-bottom: 1px solid black">
     <table class="list" width="100%">
       <tr>
         <th>
-          Activity Feed
+          <i class="fa fa-address-book" aria-hidden="true"></i> My Lists
         </th>
       </tr>
 
 
 <%
-// Combine recent New Lists and Contributors into one array and re-sort
-// by descending date for Activity Feed
+          for (var i = 0; i < list.length; i++) {
+  %>
+  <tr><td class="listrow">
 
- var activity = publicList.concat(publicCont);
- activity.sort(function(a, b) {
-    a = new Date(a.date_created);
-    b = new Date(b.date_created);
-    return a>b ? -1 : a<b ? 1 : 0;
-});
+  <%
 
-console.log(activity);
-// Loop through Activity array, determine if it's a new list or contribution,
-// and format output accordingly
+  if (list[i].image) {
+  %>
+  <img id="listPhoto" src="<%=list[i].image%>">
+  <%
+  } else {
+  %>
+  <div id="noListPhoto"><i class="fa fa-globe" aria-hidden="true"></i></div>
+  <%
+  }
+  %>
 
-for (i = 0; i < activity.length; i++) {
 
-%>
-
-<tr>
-<td class="feedrow">
-
-<%
-if (activity[i].listid) {
-
-%>
-<a href="/users/<%=activity[i].id%>"><%=activity[i].name%></a> added a new list, <a href="/lists/<%=activity[i].listid%>"><%=activity[i].title%></a>
+<a href="/lists/<%=list[i].id%>"><%= list[i].title %></a>
 <br>
-<%=activity[i].date_created %>
+<%=list[i].description%>
 <br>
-<%
-} else {
-// if activity was a contribution
-
-%>
-
-<%=activity[i].name%> contributed to <%=activity[i].title%>
+<font class="timeago">Created on <%=timeFormat(list[i].date_created)%>
+</font>
 <br>
-<%=activity[i].date_created %>
-<%
+</td></tr>
+  <%
 }
 %>
 
-</td>
-</tr>
-<%
-}
-%>
 
 
     </table>
 
-  </td>
-  <td width="2%"></td>
-  <td width="40%" valign="top">
+</div>
 
+<br><br>
+
+ <div style="height: 250px; overflow:scroll; border-bottom: 1px solid black">
     <table class="list" width="100%">
       <tr>
         <th>
-          Favourite Lists
+          <i class="fa fa-heart-o" aria-hidden="true"></i> Favourite Lists
         </th>
       </tr>
-      <tr>
-        <td>
+
+
           <%
           for (var i = 0; i < fav.length; i++) {
 
@@ -115,18 +170,159 @@ if (activity[i].listid) {
           fav[i].name = "you";
           }
           %>
+        <tr><td class="listrow">
+
+              <%
+              if (fav[i].image) {
+                %>
+                <img id="listPhoto" src="<%=fav[i].image%>">
+                <%
+                } else {
+                %>
+                <div id="noListPhoto"><i class="fa fa-globe" aria-hidden="true"></i></div>
+                <%
+                }
+                %>
           <a href="/lists/<%=fav[i].list_id%>"><%= fav[i].title %></a>
           <br>
           <%=fav[i].description%>
           <br>
-          Created by <a href="<%=fav[i].id%>"><%=fav[i].name%></a>
+          <font class="timeago">Created by <%=fav[i].name%> on <%=timeFormat(fav[i].date_created)%>
+          </font>
+          </td>
+          </tr>
           <%
           }
           %>
 
+
+
         </td>
       </tr>
     </table>
+    </div>
+
+  </td>
+  <td width="3%"></td>
+  <td width="28%" valign="top">
+
+<div style="height: 375px; overflow:scroll; border-bottom: 1px solid #cccccc">
+
+    <table id="activityfeed" width="100%">
+      <tr>
+        <th>
+          <i class="fa fa-clock-o" aria-hidden="true"></i> Activity Feed
+        </th>
+      </tr>
+      <tr>
+        <td>
+
+<ul>
+        <%
+// Combine recent New Lists and Contributors into one array and re-sort
+// by descending date for Activity Feed
+
+ var activity = publicList.concat(publicCont);
+ activity.sort(function(a, b) {
+    a = new Date(a.date_created);
+    b = new Date(b.date_created);
+    return a>b ? -1 : a<b ? 1 : 0;
+});
+
+
+// Loop through Activity array, determine if it's a new list or contribution,
+// and format output accordingly
+
+for (i = 0; i < activity.length; i++) {
+
+if (activity[i].name === user.name) {
+          activity[i].name = "You";
+          }
+
+%>
+
+
+<li>
+<%
+if (activity[i].listid) {
+
+  %>
+  <b><%=activity[i].name%></b> created a new list:
+  <%
+
+} else {
+// if activity was a contribution
+
+  %>
+  <a class="activityuser" href="/users/<%=activity[i].id%>"><%=activity[i].name%></a> contributed to:
+
+<%
+}
+%>
+
+<br>
+ <font style="font-size: 110%">
+<a href="/lists/<%=activity[i].listid%>"><%=activity[i].title%></a>
+</font>
+<br>
+<font class="timeago">
+<%= timeSince(activity[i].date_created); %>
+</font>
+<br>
+
+
+</li>
+<%
+}
+%>
+
+
+</ul>
+
+        </td>
+      </tr>
+    </table>
+
+</div>
+
+<br><br>
+
+
+<div style="height: 250px; overflow:scroll; border-bottom: 1px solid #cccccc">
+
+    <table id="activityfeed" width="100%">
+      <tr>
+        <th>
+          <i class="fa fa-users" aria-hidden="true"></i> My Contributions
+        </th>
+      </tr>
+      <tr>
+        <td>
+
+<ul>
+      <%
+for (var i = 0; i < cont.length; i++) {
+
+  %>
+  <li>
+   <font style="font-size: 110%">
+<a href="/lists/<%=cont[i].list_id%>"><%= cont[i].title %></a>
+</font>
+<br>
+You contributed on <%=timeFormat(cont[i].date_created)%>
+</li>
+  <%
+}
+%>
+</ul>
+      </td>
+      </tr>
+    </table>
+
+</div>
+
+
+
 
   </td>
   </tr>
@@ -135,55 +331,13 @@ if (activity[i].listid) {
 <td></td>
   <td valign="top">
 
-    <table class="list" width="100%">
-      <tr>
-        <th>
-          Your Lists
-        </th>
-      </tr>
-      <tr>
-        <td>
-        <%
-          for (var i = 0; i < list.length; i++) {
-  %>
-<a href="/lists/<%=list[i].list_id%>"><%= list[i].title %></a>
-<br>
-<%=list[i].description%>
-<br>
-Created on <%=list[i].date_created%>
-<br>
-  <%
-}
-%>
-        </td>
-      </tr>
-    </table>
+
 
   </td>
   <td></td>
   <td valign="top">
 
-    <table class="list" width="100%">
-      <tr>
-        <th>
-          Your Contributions
-        </th>
-      </tr>
-      <tr>
-      <td>
-      <%
-for (var i = 0; i < cont.length; i++) {
-  %>
-<a href="/lists/<%=cont[i].list_id%>"><%= cont[i].title %></a>
-<br>
-You contributed on March 30, 2017
-  <%
-}
-%>
 
-      </td>
-      </tr>
-    </table>
 
   </td>
 
