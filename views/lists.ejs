@@ -14,10 +14,7 @@
 <table id="display">
   <tr>
     <td rowspan="100%">
-
-
             <div id="map" onload="drop()"></div>
-
    <script>
 
     var map;
@@ -65,11 +62,10 @@
       <table class="list">
         <tr>
           <th colspan="2">
-          <%= list[0].title %>
-          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-          <i class="fa fa-trash-o" aria-hidden="true"></i>
-          </th>
+          <%=list[0].title %>
+            </th>
           <th>
+            <i class="fa fa-pencil-square-o" aria-hidden="true" style="float:right;" onclick="editList(<%=list[0].id%>)"></i>
           </th>
         </tr>
         <tr>

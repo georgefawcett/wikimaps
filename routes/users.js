@@ -34,10 +34,10 @@ module.exports = (knex) => {
         privacy: req.body.privacy,
         date_created: req.body.date_created
       })
-      .then((id)=>{
-        console.log(id);
+      .then((listid)=>{
+        console.log(listid);
         res.statusCode = 200;
-        res.send(id);
+        res.send(listid);
       }));
       // .catch((err)=>{
       //   res.statusCode=409;
@@ -53,12 +53,12 @@ module.exports = (knex) => {
     // .from('lists').toString());
 
     knex
-    .column('title','description','privacy')
+    .column('id','title','description','privacy')
     .where({id:req.params.listid})
     .select()
     .from('lists')
     .then((row) => {
-      res.render("newlist",{listid:req.params.listid, title: row[0].title, desc: row[0].description, privacy: row[0].privacy, cookie: req.session.user});
+      res.render("newlist",{listid: row[0].id,title: row[0].title, desc: row[0].description, privacy: row[0].privacy, points: [], cookie: req.session.user});
     })
 
   })
@@ -94,6 +94,58 @@ module.exports = (knex) => {
 
 
   })
+
+  router.post("/deletepoint", (req, res) => {
+    // console.log(knex('points')
+    //   .where("id", req.body.id)
+    //   .del().toString());
+
+    knex('points')
+      .where("id", req.body.id)
+      .del()
+    .then(()=>{
+      res.send("success");
+    });
+  });
+
+  router.get("/:listid/editList", (req,res) => {
+    //console.log(req.params.listid);
+    //res.redirect("/api/users/"+req.params.listid+"/addpoints");
+    knex
+    .column('id','title','description','privacy')
+    .where({id:req.params.listid})
+    .select()
+    .from('lists')
+    .then((row) => {
+      knex
+      .column('id','name','description','address','added_date')
+      .where({list_id:req.params.listid})
+      .select()
+      .from('points')
+      .then((pts) => {
+        //console.log(rows.length);
+        res.render("newlist",{listid: row[0].id,title: row[0].title, desc: row[0].description, privacy: row[0].privacy, points: pts, cookie: req.session.user});
+      });
+    })
+  });
+
+  router.get("/:listid/getpoints", (req, res) => {
+    //  console.log( knex
+    // .column('id','name','description','address')
+    // .where({list_id:req.params.listid})
+    // .select()
+    // .from('points').toString());
+
+     knex
+    .column('id','name','description','address')
+    .where({list_id:req.params.listid})
+    .select()
+    .from('points')
+    .then((rows) => {
+      console.log(rows.length);
+      res.send(rows);
+    });
+  });
 
   return router;
 

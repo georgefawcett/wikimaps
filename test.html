@@ -12,69 +12,42 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+<button id="new-list" class = "btn btn-default" data-toggle = "modal" data-target = "#loginModal">
+      Login
+    </button>
 
-   <title>Try v1.2 Bootstrap Online</title>
-</head>
-<body>
+    <!-- Modal -->
+    <div class = "modal fade" id = "loginModal" tabindex = "-1" role = "dialog"
+       aria-labelledby = "myModalLabel" aria-hidden = "true" style="padding:10px;">
 
-<h2>Example of creating Modals with Twitter Bootstrap</h2>
+       <div class = "modal-dialog">
+          <div class = "modal-content">
 
-<!-- Button trigger modal -->
-<button class = "btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
-   Launch demo modal
-</button>
+             <div class = "modal-header">
+                <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                      &times;
+                </button>
 
-<!-- Modal -->
-<div class = "modal fade" id = "myModal" tabindex = "-1" role = "dialog"
-   aria-labelledby = "myModalLabel" aria-hidden = "true" style="padding:10px;">
+                <h4 class = "modal-title" id = "myModalLabel">
+                   Login
+                </h4>
+             </div>
 
-   <div class = "modal-dialog">
-      <div class = "modal-content">
+             <form role = "form" id="login">
+                <div class = "form-group">
+                   <label for = "userid">Email</label>
+                   <input type = "email" class = "form-control" id = "email">
+                </div>
 
-         <div class = "modal-header">
-            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
-                  &times;
-            </button>
+                <div class = "form-group">
+                   <label for = "password">Password</label>
+                   <input type = "password" class = "form-control" id = "password">
+                </div>
 
-            <h4 class = "modal-title" id = "myModalLabel">
-               New List
-            </h4>
-         </div>
-
-         <form role = "form">
-            <div class = "form-group">
-               <label for = "title">Title<em class="mandatory" style="color:red">*</em></label>
-               <input type = "text" class = "form-control" id = "listTitle" placeholder = "Enter the title of your list">
-            </div>
-
-            <div class = "form-group">
-               <label for = "desc">Description</label>
-               <input type = "text" class = "form-control" id = "listDesc" placeholder = "Description about list">
-            </div>
-
-            <label for="visibility">Visibility</label>&nbsp;&nbsp;
-            <label class="radio-inline"><input type="radio" name="visibility" value="public">Public</label>
-            <label class="radio-inline"><input type="radio" name="visibility" value="private">Private</label>
-
-            <div class = "form-group">
-               <p class = "help-block">upload image</p>
-               <input type = "file" id = "inputfile">
-            </div>
-
-            <button id="createListButton" type = "submit" class = "btn btn-default">Submit</button>
-         </form>
-
-      </div><!-- /.modal-content -->
-   </div><!-- /.modal-dialog -->
-
-</div><!-- /.modal -->
-
-<script type="text/javascript">
-   $("#createListButton").click(function(event){
-      alert("clicked")
-      alert($("input[name='visibility']:checked").val())
-   })
-</script>
-
-</body>
-</html>
+                <button id="login-button" type = "submit" class = "btn btn-default">Submit</button>
+             </form>
+           </div>
+      </div>
+   </div>
+ </head>
+ </html>

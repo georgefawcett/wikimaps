@@ -49,7 +49,43 @@ $(document).ready(function(){
       // }
     });
   });
+
 });
+
+function deletePoint(elem,event){
+  $.ajax({
+    url:"/api/users/deletepoint",
+    type:"POST",
+    data: {id:$(elem).closest("tr").attr("id")},
+    success: () => {
+      $("#rightpane").find("table").find("#"+$(elem).closest("tr").attr("id")).remove();
+    }
+  })
+}
+
+function displayPoint(point){
+  $tr = $("<tr>").addClass("listrow").attr("id",point.id);
+  $td = $("<td>").addClass("listrow");
+
+  $font= $("<font>").addClass("namefont").text(point.name);
+  $font.append("<i class=\"fa fa-minus-circle delete-point\" aria-hidden=\"true\" style=\"color:red;float:right\" onclick= \"deletePoint(this,event)\"></i>");
+  $td.append($font.append("<br>"));
+
+  $font= $("<font>").addClass("descfont").text(point.description);
+  $td.append($font.append("<br>"));
+
+  $font= $("<font>").addClass("addressfont").text(point.address);
+  $td.append($font.append("<br>"));
+
+  $tr.append($td);
+  $("#rightpane").find("table").append($tr);
+}
+
+
+function editList(list_id){
+  window.location.href="/api/users/"+ list_id + "/editList";
+}
+
 
 let infowindow = null;
 let messagewindow = null;
@@ -69,6 +105,10 @@ function initMap() {
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+
+
+
+
 
   // Bias the SearchBox results towards current map's viewport.
   map.addListener('bounds_changed', function() {
@@ -116,11 +156,12 @@ function initMap() {
       }));
 
       for (marker of markers){
-        google.maps.event.addListener(marker, 'click',     function(event) {
-          if(!infowindow)
-            getLocationDetails(map, marker);
-          else
-            infowindow.open(map,marker);
+        google.maps.event.addListener(marker, 'click', function(event) {
+          //console.log(marker.getPosition().;
+            if(infowindow==null)
+              getLocationDetails(map, marker);
+            else
+              infowindow.open(map,marker);
         });
       }
 
@@ -132,29 +173,62 @@ function initMap() {
       }
     });
     map.fitBounds(bounds);
+
   });
 
   function getLocationDetails(map, marker){
-    // let infowindow;
-    // let messagewindow;
-    // let formattedAddress;
+
+    let $pt_name = $("<input>").attr({type:"text", id:"pt-name"});
+    $tr1 = $("<tr>");
+    $tr1.append($("<td>").text("Title: "));
+    $tr1.append($("<td>").append($pt_name));
+
+    $table = $("<table>");
+    $table.append($tr1);
+
+    let $pt_add = $("<input>").attr({type:"text", id:"pt-address"});
+    $tr2 = $("<tr>");
+    $tr2.append($("<td>").text("Address: "));
+    $tr2.append($("<td>").append($pt_add));
+
+    $table.append($tr2);
+
+    let $pt_desc = $("<input>").attr({type:"text", id:"pt-description"});
+    $tr3 = $("<tr>");
+    $tr3.append($("<td>").text("Description: "));
+    $tr3.append($("<td>").append($pt_desc));
+
+    $table.append($tr3);
+
+    let $save_button = $("<input>").attr({type:"button", id:"save-loc", value:"Save"});
+    $tr4 = $("<tr>");
+    $td4 = $("<td>").attr("colspan","2");
+    $td4.css("text-align","center");
+    $td4.append($save_button);
+    $tr4.append($td4);
+
+    $table.append($tr4);
+
+    $div = $("<div>").attr("id","form").css("display","none");
+    $div.append($table);
+
+    $("#leftpane").append($div);
+
     let geocoder = new google.maps.Geocoder;
-    // debugger;
-    //marker.getPosition().lat(),marker.getPosition().lng())
     let latlng = {lat:marker.getPosition().lat() , lng:marker.getPosition().lng()};
     geocoder.geocode({'location': latlng}, function(results, status) {
       if (status === 'OK') {
+        //console.log(results[0].formatted_address);
         formattedAddress = results[0].formatted_address;
         $('#pt-address').val(formattedAddress);
       }
     });
+    //debugger;
     infowindow = new google.maps.InfoWindow({
-      content: document.getElementById('form')
+      content: document.getElementById("form")
     });
 
     $('#form').css("display","block");
-    //$('#form').toggle();
-
     infowindow.open(map, marker);
 
     $("#save-loc").click(() => {
@@ -176,28 +250,46 @@ function initMap() {
         type: "POST",
         data: ptDetails,
         success:(res) => {
-          alert(res[0].address);
-          // $ptList = $('#ptList');
-          // $ptDiv = $("<div>").addClass("location");
-          // $ptDiv.append($("<p>").text(res.))
+          displayPoint(res[0]);
+          // $tr = $("<tr>").addClass("listrow").attr("id",res[0].id);
+          // $td = $("<td>").addClass("listrow");
 
+          // $font= $("<font>").addClass("namefont").text(res[0].name);
+          // $font.append("<i class=\"fa fa-minus-circle delete-point\" aria-hidden=\"true\" style=\"color:red;float:right\" onclick= \"deletePoint(this,event)\"></i>");
+          // $td.append($font.append("<br>"));
+
+          // $font= $("<font>").addClass("descfont").text(res[0].description);
+          // $td.append($font.append("<br>"));
+
+          // $font= $("<font>").addClass("addressfont").text(res[0].address);
+          // $td.append($font.append("<br>"));
+
+          // $tr.append($td);
+          // $("#rightpane").find("table").append($tr);
         }
       })
+
+      $div = $("<div>").attr("id","message");
+      $div.css("display","none");
+      $div.append($("<p>").text("Location Saved!"));
+      $("#leftpane").append($div)
 
       messagewindow = new google.maps.InfoWindow({
         content: document.getElementById('message')
       });
+
       infowindow.close();
       infowindow = null;
-      $('#form').css("display","none");
 
       $('#message').css("display","block");
       messagewindow.open(map,marker);
 
       setTimeout(()=>{
-        infowindow = null;
         messagewindow.close();
+        messagewindow = null;
       }, 1500);
     })
   }
 }
+
+
