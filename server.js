@@ -16,6 +16,7 @@ const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 
 
+
 const cookieSession = require('cookie-session')
 app.use(cookieSession({
   name: 'session',
@@ -49,7 +50,7 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  if (req.session.user_id) {
+  if (req.session.user) {
     knex
       .select("*")
       .from("lists")
@@ -57,7 +58,7 @@ app.get("/", (req, res) => {
       .then((results) => {
         const templateVars = { cookie: req.session.user,
                                 lists: results };
-    res.render("dashboard", templateVars);
+    res.redirect("/users/" + req.session.user.id);
     });
 
   } else {
@@ -147,7 +148,7 @@ templateVars.list = listResults;
 // Join query to get title of lists user has contributed to
 knex('contributors')
 .join('lists', 'contributors.list_id', 'lists.id')
-.select ('contributors.list_id', 'lists.title')
+.select ('contributors.list_id', 'contributors.date_created', 'lists.title')
 .where ('contributors.user_id', req.params.userID)
 .then((contResults) => {
   templateVars.cont = contResults;
@@ -157,7 +158,7 @@ knex('contributors')
 knex('favourites')
 .join('lists', 'favourites.list_id', 'lists.id')
 .join('users', 'lists.user_id', 'users.id')
-.select ('favourites.list_id', 'lists.title', 'lists.description', 'users.id', 'users.name')
+.select ('favourites.list_id', 'lists.title', 'lists.description', 'lists.image', 'lists.date_created', 'users.id', 'users.name')
 .where ('favourites.user_id', req.params.userID)
 .then((favResults) => {
   templateVars.fav = favResults;
@@ -201,14 +202,15 @@ knex('lists')
 
 
 // Logout
-app.post("/logout", (req, res) => {
+app.get("/logout", (req, res) => {
   req.session = null;
-  res.redirect("/login");
+  res.redirect("/");
 });
 
 
 // Register page
 app.get("/register", (req, res) => {
+  req.session.user = null;
   res.render("register");
 });
 
