@@ -5,7 +5,7 @@
     <%- include partials/_header%>
   </head>
   <body onload = "initMap()">
-  <!--<%- include partials/_navbar%>-->
+  <%- include partials/_navbar%>
   <div id="maindiv" >
     <div id="leftpane">
       <div id="map" style="width: 600px;height:500px; margin-left:10px;"></div>
@@ -15,27 +15,38 @@
       <table class="list">
        <tr>
          <th>
-            <%=title%>
-            <i class="fa fa-trash-o" aria-hidden="true" style="float:right;" onclick = "deletelist(<%= listid %>)">&nbsp;&nbsp;</i>
-            <i class="fa fa-pencil-square-o" aria-hidden="true" style="float:right;" onclick = "editlist(<% =listid %>)">&nbsp;&nbsp;</i>
+<%=title%>
+
+
+<i class="fa fa-trash-o" aria-hidden="true" style="float:right;" onclick = "deletelist(<%= listid %>)">&nbsp;&nbsp;</i>
+            <i class="fa fa-pencil-square-o" aria-hidden="true" style="float:right;" onclick = "editlist(<%=listid %>)">&nbsp;&nbsp;</i>
+
+
 
          </th>
        </tr>
        <tr>
          <td class="secondrow" colspan="2"><p style="float:left;"><%=desc%></p>
          <p style="float:right">
-           <%if(privacy === 0) {%>
+
+
+ <%if(privacy === 0) {%>
               public
             <% } else if(privacy === 1) {%>
               private
             <% } else { %>
               only me
             <%}%>
+
+
           </p>
          </td>
        </tr>
 
-        <%for (var i = 0; i < points.length; i++) { %>
+
+
+
+<%for (var i = 0; i < points.length; i++) { %>
         <tr class="listrow" id=points[i].id>
           <td class="listrow">
             <font class="namefont">
@@ -56,6 +67,11 @@
           </td>
         </tr>
         <% } %>
+
+
+
+
+
       </table>
     </div>
   </div>
