@@ -4,23 +4,19 @@
 $(document).ready(function(){
 
 $('#savelistdiv').click(function() {
-
   $('#savelistdiv').toggleClass("savedList");
   if ($('#savelistdiv').html() === '<font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark') {
     $("#savelistdiv").html('<font color="#cc2900"><i class="fa fa-bookmark" aria-hidden="true"></i></font> &nbsp;Bookmarked');
-  } else {
-$('#savelistdiv').html('<font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark');
-}
-
-  console.log(list[0].title);
-  $.ajax({
-      url: "/api/users/createlist",
+    alert("saving into favourites!")
+    $.ajax({
+      url: "/api/users/savefavourite",
       type: "POST",
-      data: saveListId,
-      success: (id) => {
-        window.location.href="/api/users/"+ id + "/addpoints";
-      }
+      data: {id: $("#bookmark-row").data('list-id')}
     });
+  } else {
+    $('#savelistdiv').html('<font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark');
+    alert("unsave!!")
+  }
 });
 
   // make a .hover event

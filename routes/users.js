@@ -167,6 +167,17 @@ module.exports = (knex) => {
       })
     })
   })
+
+  router.post("/savefavourite", (req,res) => {
+    knex('favourites')
+    .insert({
+      user_id: req.session.user.id,
+      list_id: req.body.id
+    })
+    .then(() => {
+      res.send("success");
+    });
+  })
   return router;
 
 }
