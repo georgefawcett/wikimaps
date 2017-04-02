@@ -52,7 +52,8 @@ $('#savelistdiv').click(function() {
       title: $("#listTitle").val(),
       desc: $("#listDesc").val(),
       privacy: $("input[name='visibility']:checked").val(),
-      date_created: new Date().toUTCString()
+      date_created: new Date().toUTCString(),
+      image_url: $("#listImageURL").val()
     }
     $.ajax({
       url: "/api/users/createlist",
@@ -106,6 +107,18 @@ function editList(list_id){
   window.location.href="/api/users/"+ list_id + "/editList";
 }
 
+function deletelist(list_id){
+  if(confirm("Are you sure you want to delete the list ?")){
+    $.ajax({
+      url: "/api/users/deletelist",
+      type: "POST",
+      data:{id:list_id},
+      success:(res) => {
+        window.location.href="/";
+      }
+    });
+  }
+}
 
 let infowindow = null;
 let messagewindow = null;
@@ -257,7 +270,8 @@ function initMap() {
         address: $("#pt-address").val(),
         added_date: new Date().toUTCString(),
         updated_date: new Date().toUTCString(),
-        listid: $('#rightpane').data('list-id')
+        listid: $('#rightpane').data('list-id'),
+        author: $('#rightpane').data('list-author')
       }
       //console.log(ptDetails);
 
@@ -268,7 +282,11 @@ function initMap() {
         success:(res) => {
           displayPoint(res[0]);
         }
-      })
+      });
+
+      // if($('#rightpane').data('list-author') != req.session.user.id){
+      //   alert("adding to contributions list");
+      // }
 
       $div = $("<div>").attr("id","message");
       $div.css("display","none");
