@@ -13,34 +13,61 @@
 
 <%
 // Function to convert timestamp to number of minutes, etc ago
+%>
+<script>
+// function timeSince(date) {
 
+
+//     var seconds = Math.floor((new Date() - date) / 1000) + 500;
+
+//     var interval = Math.floor(seconds / 31536000);
+
+//     if (interval > 1) {
+//         return interval + " years ago";
+//     }
+//     interval = Math.floor(seconds / 2592000);
+//     if (interval > 1) {
+//         return interval + " months ago";
+//     }
+//     interval = Math.floor(seconds / 86400);
+//     if (interval > 1) {
+//         return interval + " days ago";
+//     }
+//     interval = Math.floor(seconds / 3600);
+//     if (interval > 1) {
+//         return interval + " hours ago";
+//     }
+//     interval = Math.floor(seconds / 60);
+//     if (interval > 1) {
+//         return interval + " minutes ago";
+//     }
+//     return Math.floor(seconds) + " seconds ago";
+//     }
+</script>
+<%
 function timeSince(date) {
+ let difference_milliseconds = new Date(Date.now()) - new Date(date);
+ let difference_seconds = difference_milliseconds / 1000;
+ let difference_minutes = difference_seconds / 60;
+ let difference_hours;
+ let difference_days;
+ let difference_years;
+ if (difference_minutes < 1) return `few seconds ago`;
 
-    var seconds = Math.floor((new Date() - date) / 1000) + 500;
+ difference_hours = difference_minutes / 60;
 
-    var interval = Math.floor(seconds / 31536000);
+ if (difference_hours < 1) return (Math.floor(difference_minutes) === 1) ? '1 minute ago' : `${Math.floor(difference_minutes)} minutes ago`;
 
-    if (interval > 1) {
-        return interval + " years ago";
-    }
-    interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-        return interval + " months ago";
-    }
-    interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-        return interval + " days ago";
-    }
-    interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-        return interval + " hours ago";
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-        return interval + " minutes ago";
-    }
-    return Math.floor(seconds) + " seconds ago";
-    }
+ difference_days = difference_hours / 24;
+
+ if (difference_days < 1) return Math.floor(difference_hours) === 1 ? '1 hour ago' : `${Math.floor(difference_hours)} hours ago`;
+
+ difference_years = difference_days / 365;
+
+ if (difference_years < 1) return Math.floor(difference_days) === 1 ? '1 day ago' : `${Math.floor(difference_days)} days ago`;
+
+ return Math.floor(difference_years) === 1 ? '1 year ago' : `${Math.floor(difference_years)} year ago`;
+}
 
 function timeFormat(date) {
   var monthNames = ["January", "February", "March", "April", "May", "June",
@@ -307,7 +334,7 @@ Private List
 // and format output accordingly
 
 for (i = 0; i < activity.length; i++) {
-console.log(activity[i])
+
 if (activity[i].id === user.id) {
           activity[i].name = "You";
           }
@@ -321,6 +348,9 @@ if (activity[i].listid) {
 
   %>
   <b><%=activity[i].name%></b> created a new list:
+  <br>
+ <font style="font-size: 110%">
+<a href="/lists/<%=activity[i].listid%>"><%=activity[i].title%></a>
   <%
 
 } else {
@@ -328,14 +358,14 @@ if (activity[i].listid) {
 
   %>
   <a class="activityuser" href="/users/<%=activity[i].id%>"><%=activity[i].name%></a> contributed to:
-
+<br>
+ <font style="font-size: 110%">
+<a href="/lists/<%=activity[i].list_id%>"><%=activity[i].title%></a>
 <%
 }
 %>
 
-<br>
- <font style="font-size: 110%">
-<a href="/lists/<%=activity[i].list_id%>"><%=activity[i].title%></a>
+
 </font>
 <br>
 <font class="timeago">
