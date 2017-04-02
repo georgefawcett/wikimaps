@@ -4,15 +4,18 @@
 $(document).ready(function(){
 
 $('#savelistdiv').click(function() {
-
   $('#savelistdiv').toggleClass("savedList");
+
   if ($('#savelistdiv').html() === '<font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark') {
     $("#savelistdiv").html('<font color="#cc2900"><i class="fa fa-bookmark" aria-hidden="true"></i></font> &nbsp;Bookmarked');
+
+
+
   } else {
 $('#savelistdiv').html('<font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark');
 }
 
-  console.log(list[0].title);
+
   $.ajax({
       url: "/api/users/createlist",
       type: "POST",
@@ -23,33 +26,7 @@ $('#savelistdiv').html('<font color="#cc2900"><i class="fa fa-bookmark-o" aria-h
     });
 });
 
-  // make a .hover event
-    $('#marker_info').hover(
-      // mouse in
-      function () {
-        // first we need to know which <div class="marker"></div> we hovered
-        var index = $('.listlabel').index(this);
-        markers[index].setIcon(highlightedIcon());
-      },
-      // mouse out
-      function () {
-        // first we need to know which <div class="marker"></div> we hovered
-        var index = $('.listlabel').index(this);
-        markers[index].setIcon(normalIcon());
-      }
 
-    );
-
-      function normalIcon() {
-      return {
-        url: 'http://1.bp.blogspot.com/_GZzKwf6g1o8/S6xwK6CSghI/AAAAAAAAA98/_iA3r4Ehclk/s1600/marker-green.png'
-      };
-    }
-    function highlightedIcon() {
-      return {
-        url: 'http://steeplemedia.com/images/markers/markerGreen.png'
-      };
-    }
      $("#createListButton").click(function(event){
     event.preventDefault();
     let listDetails={
