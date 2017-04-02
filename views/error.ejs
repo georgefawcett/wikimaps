@@ -1,0 +1,22 @@
+No!
+<%
+if (errorType === "wronguser") {
+  %>
+  wrong user!
+
+  <%
+} else if (errorType === "wronglogin") {
+%>
+
+wrong password!
+
+<%
+
+} else if (errorType === "missingreginfo") {
+%>
+
+missing registration info!
+
+<%
+}
+%>

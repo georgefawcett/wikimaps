@@ -39,6 +39,10 @@ function timeSince(date) {
     if (interval > 1) {
         return interval + " minutes ago";
     }
+    interval = Math.floor(seconds / 60);
+    if (interval = 1) {
+        return interval + " minute ago";
+    }
     return Math.floor(seconds) + " seconds ago";
     }
 
@@ -56,8 +60,10 @@ var month = monthNames[date.getMonth()];
 %>
 
 
-  <table id="display">
+  <table id="display" style="width: 94%">
   <tr>
+
+
   <td width="18%" valign="top">
 
     <table>
@@ -90,7 +96,7 @@ var month = monthNames[date.getMonth()];
   <%= timeFormat(user.date_joined)%><br>
   <b>Lists Created:</b> <%= list.length %><br>
  <b>Public Edits:</b> <%= cont.length %><br>
- <b>Favourites:</b> <%= fav.length %><br>
+ <b>Saved Lists:</b> <%= fav.length %><br>
   </font>
 
       </td>
@@ -100,22 +106,41 @@ var month = monthNames[date.getMonth()];
 
   </td>
 
-  <td width="3%"></td>
+  <td width="2%"></td>
   <td width="48%" valign="top">
 
-  <div style="height: 375px; overflow:scroll; border-bottom: 1px solid black">
+  <div style="height: 375px; overflow:scroll">
     <table class="list" width="100%">
       <tr>
-        <th>
+        <th height="10">
           <i class="fa fa-address-book" aria-hidden="true"></i> My Lists
         </th>
       </tr>
 
 
 <%
+// If the user hasn't created any lists, display message
+// Otherwise, display lists
+
+if (list.length === 0) {
+
+%>
+
+<tr>
+<td class="listrow" align="center">
+<br>
+<font style="font-size: 125%">
+You have not created any lists yet.
+</font>
+<br><br><br>
+</td>
+</tr>
+
+<%
+} else {
           for (var i = 0; i < list.length; i++) {
   %>
-  <tr><td class="listrow">
+  <tr><td class="listrow" valign="top">
 
   <%
 
@@ -135,12 +160,11 @@ var month = monthNames[date.getMonth()];
 <br>
 <%=list[i].description%>
 <br>
-<font class="timeago">Created on <%=timeFormat(list[i].date_created)%>
-</font>
-<br>
+<font class="timeago">Created on <%=timeFormat(list[i].date_created)%></font>
 </td></tr>
   <%
 }
+} // end if- user has lists
 %>
 
 
@@ -151,16 +175,32 @@ var month = monthNames[date.getMonth()];
 
 <br><br>
 
- <div style="height: 250px; overflow:scroll; border-bottom: 1px solid black">
-    <table class="list" width="100%">
+ <div style="height: 250px; overflow:scroll">
+    <table class="list" width="100%" style="min-height: 250px">
       <tr>
-        <th>
-          <i class="fa fa-heart-o" aria-hidden="true"></i> Favourite Lists
+        <th height="10">
+          <i class="fa fa-bookmark" aria-hidden="true"></i> Saved Lists
         </th>
       </tr>
 
 
           <%
+
+          if (fav.length === 0) {
+          %>
+          <tr>
+          <td class="listrow" align="center">
+          <br>
+          <font style="font-size: 125%">
+          You have not created any lists yet.
+          </font>
+          <br><br>
+          </td>
+          </tr>
+          <%
+          } else {
+
+
           for (var i = 0; i < fav.length; i++) {
 
           // Check to see if favourited list was created by the logged-in user
@@ -193,6 +233,7 @@ var month = monthNames[date.getMonth()];
           </tr>
           <%
           }
+          } // end if- user has saved lists
           %>
 
 
@@ -203,10 +244,10 @@ var month = monthNames[date.getMonth()];
     </div>
 
   </td>
-  <td width="3%"></td>
+  <td width="2%"></td>
   <td width="28%" valign="top">
 
-<div style="height: 375px; overflow:scroll; border-bottom: 1px solid #cccccc">
+<div style="height: 375px; overflow:scroll">
 
     <table id="activityfeed" width="100%">
       <tr>
@@ -235,7 +276,7 @@ var month = monthNames[date.getMonth()];
 
 for (i = 0; i < activity.length; i++) {
 
-if (activity[i].name === user.name) {
+if (activity[i].id === user.id) {
           activity[i].name = "You";
           }
 
@@ -262,7 +303,7 @@ if (activity[i].listid) {
 
 <br>
  <font style="font-size: 110%">
-<a href="/lists/<%=activity[i].listid%>"><%=activity[i].title%></a>
+<a href="/lists/<%=activity[i].id%>"><%=activity[i].title%></a>
 </font>
 <br>
 <font class="timeago">
@@ -288,11 +329,11 @@ if (activity[i].listid) {
 <br><br>
 
 
-<div style="height: 250px; overflow:scroll; border-bottom: 1px solid #cccccc">
+<div style="height: 250px; overflow:scroll">
 
-    <table id="activityfeed" width="100%">
+    <table id="activityfeed" width="100%" style="min-height: 250px">
       <tr>
-        <th>
+        <th height="10">
           <i class="fa fa-users" aria-hidden="true"></i> My Contributions
         </th>
       </tr>
@@ -301,6 +342,19 @@ if (activity[i].listid) {
 
 <ul>
       <%
+
+      if (cont.length === 0) {
+      %>
+          <tr>
+          <td class="listrow" align="center" valign="top">
+          <br>
+          You have not contributed to anyone's lists yet.
+          <br><br>
+          </td>
+          </tr>
+
+          <%
+      } else {
 for (var i = 0; i < cont.length; i++) {
 
   %>
@@ -313,6 +367,7 @@ You contributed on <%=timeFormat(cont[i].date_created)%>
 </li>
   <%
 }
+} // end if- user has contributed to lists
 %>
 </ul>
       </td>

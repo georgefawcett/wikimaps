@@ -3,6 +3,21 @@
 
 $(document).ready(function(){
 
+$('#savelistdiv').click(function() {
+
+  $('#savelistdiv').addClass("savedList");
+  $('#savelistdiv').html("Saved");
+
+  console.log(list[0].title);
+  $.ajax({
+      url: "/api/users/createlist",
+      type: "POST",
+      data: saveListId,
+      success: (id) => {
+        window.location.href="/api/users/"+ id + "/addpoints";
+      }
+    });
+});
 
   // make a .hover event
     $('#marker_info').hover(
