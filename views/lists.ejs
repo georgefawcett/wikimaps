@@ -13,7 +13,31 @@
 
 <table id="display">
   <tr>
-    <td rowspan="100%">
+
+<%
+
+// If the list is empty, display message
+// Otherwise, display map and list
+
+if (points.length === 0) {
+
+%>
+
+    <td valign="top">
+    <div style="border: 1px solid black; text-align: center; background-color: white;  width: 685px">
+      <br><br><br><br>
+      This list does not have any points yet
+      <br><br><br><br><br>
+      </div>
+    </td>
+
+<%
+} else {
+
+%>
+
+
+    <td rowspan="100%" valign="top" width="685">
             <div id="map" onload="drop()"></div>
    <script>
 
@@ -29,7 +53,7 @@
     // Initiate Google Map
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 6,
+          zoom: 12,
           center: new google.maps.LatLng(pointslist[0].x,pointslist[0].y),
           mapTypeId: 'terrain'
         });
@@ -58,27 +82,62 @@
     </script>
 
     </td>
-    <td valign="top">
-      <table class="list">
+
+<%
+} //end if - list has points
+
+%>
+    <td valign="top" width="388">
+
+        <div style="height: 460px; overflow:scroll">
+
+      <table class="list" width="100%">
         <tr>
           <th colspan="2">
+          <%
+           // Function to format date
+        function timeFormat(date) {
+        var monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
+
+        month = monthNames[date.getMonth()];
+
+        var day = date.getDate();
+
+        var year = date.getFullYear();
+        return month + ' ' + day + ', ' + year;
+        }
+        %>
+
           <%=list[0].title %>
-            </th>
-          <th>
-            <i class="fa fa-pencil-square-o" aria-hidden="true" style="float:right;" onclick="editList(<%=list[0].id%>)"></i>
+          <%
+          // Make sure list either belongs to user or is public-editable before displaying edit button
+          if (list[0].user_id === cookie.id || list[0].privacy === 0) {
+          %>
+            <i class="fa fa-pencil-square-o" aria-hidden="true" style="float:right; position: relative; top: 3px" onclick="editList(<%=list[0].id%>)" onMouseOver="this.style.cursor='pointer'"></i>
+            <%
+            } // end if - editable
+            %>
+            <div class="saveList" id="savelistdiv">
+            <font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Save this list
+            </div>
           </th>
         </tr>
         <tr>
-          <td class="secondrow" colspan="3">
-          <b><%= points.length%></b> locations&nbsp&nbsp;&nbsp;|&nbsp&nbsp;&nbsp;Created by <b>you</b> on March 30, 2016
+          <td class="secondrow" colspan="2">
+          <b><%= points.length%></b> locations&nbsp&nbsp;&nbsp;|&nbsp&nbsp;&nbsp;Created by <b>you</b> on <%=timeFormat(list[0].date_created)%>
           </td>
         </tr>
         <%
         var listLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var listLabelIndex = 0;
+
+
+
+
         for (var i = 0; i < points.length; i++) { %>
         <tr class="listrow">
-          <td class="listlabel" id="marker_info">
+          <td class="listlabel" id="marker_info" width="7%">
             <%= listLabels[listLabelIndex++ % listLabels.length] %>
           </td>
           <td class="listrow">
@@ -90,21 +149,26 @@
               <%= points[i].address %>
             </font>
             <br>
+            <%
+            if (points[i].description) {
+            %>
             <font class="descfont">
               <%= points[i].description %>
             </font>
             <br>
+            <%
+            } // end if - description
+            %>
             <font class="datefont">
-              <%= points[i].added_date %>
+              Added on <%= timeFormat(points[i].added_date) %>
             </font>
           </td>
-          <td class="listrow">
-            <img id="listPhoto" src="http://css1.www.cntower.ca/site_Files/Content/IMG/lookout_gallery/ImageThumbnailSize/CNTower-View-From-The-Lookout_0_0_.jpg">
-          </td>
+
         </tr>
 
         <% } %>
       </table>
+      </div>
 </td>
 
 <td valign="top">

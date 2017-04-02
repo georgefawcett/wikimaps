@@ -105,8 +105,8 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
     color: white;
     text-decoration: none;
     letter-spacing: 1px;
-    padding-top: 33px;
-    padding-bottom: 29px;
+    padding-top: 31px;
+    padding-bottom: 31px;
     padding-left: 35px;
     padding-right: 35px;
     margin-left: 40px;
@@ -190,12 +190,12 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
   #map {
   border: 1px solid black;
   margin-right: 10px;
-  width: 600px;
-  height: 450px;
+  width: 665px;
+  height: 460px;
   }
 
   #display {
-    width: 94%;
+    width: 95%;
   padding-bottom: 0;
   margin-top: 20px;
   border: 0;
@@ -206,7 +206,7 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
   }
 
   .list {
-  min-width: 500px;
+  text-align: left;
   margin: 0;
   color: black;
   border: 1px solid black;
@@ -230,7 +230,10 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
 
     .listrow {
       background-color: white;
-      padding: 7px;
+      padding-right: 7px;
+      padding-left: 7px;
+      padding-top: 12px;
+      padding-bottom: 12px;
       border-bottom: 1px solid black;
     }
 
@@ -319,7 +322,7 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
   color: #666666;
 }
   #privacy {
-    margin: 0;
+    margin-left: 5px;
     border-collapse: collapse;
     width: 100px;
     .public {
@@ -361,6 +364,7 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
   #listPhoto {
     width: 120px;
     margin-right: 10px;
+    margin-bottom: 0;
     border: 1px solid #888888;
     float: left;
   }
@@ -420,7 +424,76 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
   }
 }
 
+.popupform {
+  padding: 16px;
+}
 
+ .loginButton{
+      float: right;
+      margin: 25px 0;
+      border-radius: 7px;
+      height: 32px;
+      width: 90px;
+      background-color: #cc2900;
+      /*color: #00a087;*/
+      color: #eeeeee;
+      font-size: 100%;
+      border: 1px solid #eeeeee;
+      font-size: 90%;
+      outline:none;
+      margin-left:5px;
+      margin-right: 5px;
+      padding-top: 2px;
+      padding-left: 8px;
+      letter-spacing: 1px;
+       -webkit-box-shadow: inset 1px 2px 8px #ff704d, inset -1px -3px 3px -1px #661400, 1px 2px 1px black;
+      -moz-box-shadow: inset 1px 2px 8px #ff704d, inset -1px -3px 3px -1px #661400, 1px 2px 1px black;
+      box-shadow: inset 1px 2px 8px #ff704d, inset -1px -3px 3px -1px #661400, 1px 2px 1px black;
+    }
+    .loginButton:hover {
+      background-color: #ff471a;
+    }
+  .loginButton:active {
+    box-shadow:
+    inset 0 -2px 1px rgba(255,255,255,0.2),
+    inset 0 3px 2px rgba(0,0,0,0.12);
+  }
+.saveList {
+  float: right;
+  background-color: #eeeeee;
+  border: 1px solid #ffebe6;
+  border-radius: 3px;
+  color: #888888;
+  letter-spacing: 0;
+  font-size: 90%;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-right: 15px;
+         -webkit-box-shadow: inset 1px 2px 8px #ffffff, inset -1px -3px 3px -1px #cccccc, 1px 2px 1px black;
+      -moz-box-shadow: inset 1px 2px 8px #ffffff, inset -1px -3px 3px -1px #cccccc, 1px 2px 1px black;
+      box-shadow: inset 1px 2px 8px #ffffff, inset -1px -3px 3px -1px #cccccc, 1px 2px 1px black;
+}
+
+.saveList:hover {
+  background-color: #ffebe6;
+  color: #666666;
+  border: 1px solid #cc2900;
+}
+
+ .saveList:active {
+    box-shadow:
+    inset 0 -2px 1px rgba(255,255,255,0.2),
+    inset 0 3px 2px rgba(0,0,0,0.12);
+}
+.savedList {
+  background-color: white;
+  color: #cc2900;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.savedList:hover {
+  color: #cc2900;
+}
 .featured {
   background-color: white;
 margin-top: 8px;

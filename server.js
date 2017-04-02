@@ -50,6 +50,7 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
+
   if (req.session.user) {
     knex
       .select("*")
@@ -99,6 +100,10 @@ app.post("/login", (req, res) => {
                             };
 
           res.redirect("/");
+         } else {
+          const templateVars = { errorType: "wronglogin" };
+        res.status(403).render("error", templateVars);
+
          }
 
 
@@ -133,93 +138,94 @@ app.get("/lists/:listID", (req, res) => {
 
 app.get("/users/:userID", (req, res) => {
 
-let templateVars = {cookie: req.session.user};
+// Make sure the user URL being requested matches the logged-in user
+if (req.session.user && (Number(req.session.user.id) === Number(req.params.userID))) {
+  let templateVars = {cookie: req.session.user};
 
-Promise.all([
+console.log (templateVars);
+  Promise.all([
 
-knex.select("*").from("users").where("id", req.params.userID).then((userResults) => {
-templateVars.user = userResults[0];
-}),
+  knex.select("*").from("users").where("id", req.params.userID).then((userResults) => {
+  templateVars.user = userResults[0];
+  }),
 
-knex.select("*").from("lists").where("user_id", req.params.userID).then((listResults) => {
-templateVars.list = listResults;
-}),
+  knex.select("*").from("lists").where("user_id", req.params.userID).then((listResults) => {
+  templateVars.list = listResults;
+  }),
 
-// Join query to get title of lists user has contributed to
-knex('contributors')
-.join('lists', 'contributors.list_id', 'lists.id')
-.select ('contributors.list_id', 'contributors.date_created', 'lists.title')
-.where ('contributors.user_id', req.params.userID)
-.then((contResults) => {
-  templateVars.cont = contResults;
-}),
+  // Join query to get title of lists user has contributed to
+  knex('contributors')
+  .join('lists', 'contributors.list_id', 'lists.id')
+  .select ('contributors.list_id', 'contributors.date_created', 'lists.title')
+  .where ('contributors.user_id', req.params.userID)
+  .then((contResults) => {
+    templateVars.cont = contResults;
+  }),
 
-// Double join query to get list & list author info of lists user has favourited
-knex('favourites')
-.join('lists', 'favourites.list_id', 'lists.id')
-.join('users', 'lists.user_id', 'users.id')
-.select ('favourites.list_id', 'lists.title', 'lists.description', 'lists.image', 'lists.date_created', 'users.id', 'users.name')
-.where ('favourites.user_id', req.params.userID)
-.then((favResults) => {
-  templateVars.fav = favResults;
-}),
-
-
-// Double join query of recent contributions and join query
-// of recent new lists for Activity Feed.
-// Ensure lists have public view or edit privacy settings
-// 0 = fully public; 1 = public view only; 2 = private
-
-knex('contributors')
-.join('lists', 'contributors.list_id', 'lists.id')
-.join('users', 'contributors.user_id', 'users.id')
-.select ('contributors.list_id', 'lists.title', 'users.name', 'users.id', 'contributors.date_created')
-.where('lists.privacy', 0).orWhere('lists.privacy', 1)
-.orderBy('contributors.date_created', 'desc')
-.limit(5)
-.then((publicContResults) => {
-  templateVars.publicCont = publicContResults;
-}),
-
-knex('lists')
-.join('users', 'lists.user_id', 'users.id')
-.select ('lists.id as listid', 'lists.title', 'lists.date_created', 'users.name', 'users.id')
-.where('lists.privacy', 0).orWhere('lists.privacy', 1)
-.orderBy('lists.date_created', 'desc')
-.limit(5)
-.then((publicListResults) => {
-  templateVars.publicList = publicListResults;
-}),
+  // Double join query to get list & list author info of lists user has favourited
+  knex('favourites')
+  .join('lists', 'favourites.list_id', 'lists.id')
+  .join('users', 'lists.user_id', 'users.id')
+  .select ('favourites.list_id', 'lists.title', 'lists.description', 'lists.image', 'lists.date_created', 'users.id', 'users.name')
+  .where ('favourites.user_id', req.params.userID)
+  .then((favResults) => {
+    templateVars.fav = favResults;
+  }),
 
 
-]).then(() => {
-  res.render("users", templateVars);
-});
+  // Double join query of recent contributions and join query
+  // of recent new lists for Activity Feed.
+  // Ensure lists have public view or edit privacy settings
+  // 0 = fully public; 1 = public view only; 2 = private
+
+  knex('contributors')
+  .join('lists', 'contributors.list_id', 'lists.id')
+  .join('users', 'contributors.user_id', 'users.id')
+  .select ('contributors.list_id', 'lists.title', 'users.name', 'users.id', 'contributors.date_created')
+  .where('lists.privacy', 0).orWhere('lists.privacy', 1)
+  .orderBy('contributors.date_created', 'desc')
+  .limit(5)
+  .then((publicContResults) => {
+    templateVars.publicCont = publicContResults;
+  }),
+
+  knex('lists')
+  .join('users', 'lists.user_id', 'users.id')
+  .select ('lists.id as listid', 'lists.title', 'lists.date_created', 'users.name', 'users.id')
+  .where('lists.privacy', 0).orWhere('lists.privacy', 1)
+  .orderBy('lists.date_created', 'desc')
+  .limit(5)
+  .then((publicListResults) => {
+    templateVars.publicList = publicListResults;
+  }),
 
 
+  ]).then(() => {
+    res.render("users", templateVars);
+  });
+
+} else { // else if - not same logged-in user
+  const templateVars = {errorType: "wronguser"};
+    res.status(403).render("error", templateVars);
+} // end if - same logged-in user
 });
 
 
 
 // Logout
 app.get("/logout", (req, res) => {
-  req.session = null;
+  req.session.user = null;
   res.redirect("/");
 });
 
 
-// Register page
-app.get("/register", (req, res) => {
-  req.session.user = null;
-  res.render("register");
-});
+
 
 app.post("/register", (req, res) => {
 
   if (!req.body.name || !req.body.email || !req.body.password) {
-    // const userID = req.session.user_id;
-    // const templateVars = { urls: urlDatabase, user: users[userID], error: "missingreginfo" };
-    // res.status(400).render("urls_error", templateVars);
+    const templateVars = { errorType: "missingreginfo" };
+    res.status(400).render("error", templateVars);
   } else {
     const bcrypt = require('bcrypt');
     const hashed_password = bcrypt.hashSync(req.body.password, 10);
@@ -231,7 +237,7 @@ app.post("/register", (req, res) => {
       .returning("id")
       .into("users")
       .then(function (id) {
-        req.session.user = {"id": id,
+        req.session.user = {"id": id[0],
                               "name": req.body.name
                             };
 
