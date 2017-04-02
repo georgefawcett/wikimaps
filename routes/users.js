@@ -21,7 +21,7 @@ module.exports = (knex) => {
     //   .insert({
     //     title: req.body.title,
     //     description: req.body.desc,
-    //     user_id: 14,
+    //     user_id: req.session.user.id,
     //     privacy: req.body.privacy,
     //     date_created: req.body.date_created
     //   }).toString()));
@@ -30,12 +30,13 @@ module.exports = (knex) => {
       .insert({
         title: req.body.title,
         description: req.body.desc,
-        user_id: 14,
+        user_id: req.session.user.id,
         privacy: req.body.privacy,
-        date_created: req.body.date_created
+        date_created: req.body.date_created,
+        image: req.body.image_url
       })
       .then((listid)=>{
-        console.log(listid);
+        // console.log(listid);
         res.statusCode = 200;
         res.send(listid);
       }));
@@ -53,12 +54,12 @@ module.exports = (knex) => {
     // .from('lists').toString());
 
     knex
-    .column('id','title','description','privacy')
+    .column('id','title','description','privacy','user_id')
     .where({id:req.params.listid})
     .select()
     .from('lists')
     .then((row) => {
-      res.render("newlist",{listid: row[0].id,title: row[0].title, desc: row[0].description, privacy: row[0].privacy, points: [], cookie: req.session.user});
+      res.render("newlist",{listid: row[0].id,title: row[0].title, desc: row[0].description, privacy: row[0].privacy, author: row[0].user_id, points: [], cookie: req.session.user});
     })
 
   })
@@ -76,23 +77,37 @@ module.exports = (knex) => {
     //     updated_date: req.body.updated_date
     //   }).toString()));
 
-      knex("points")
-      .returning(['id','name','description','address'])
-      .insert({
-        x: req.body.x,
-        y: req.body.y,
-        name: req.body.name,
-        description: req.body.desc,
-        list_id: req.body.listid,
-        added_date: req.body.added_date,
-        updated_date: req.body.updated_date,
-        address: req.body.address
-      })
-      .then((ptDetails)=>{
+    knex("points")
+    .returning(['id','name','description','address','added_date'])
+    .insert({
+      x: req.body.x,
+      y: req.body.y,
+      name: req.body.name,
+      description: req.body.desc,
+      list_id: req.body.listid,
+      added_date: req.body.added_date,
+      updated_date: req.body.updated_date,
+      address: req.body.address
+    })
+    .then((ptDetails) => {
+      if(req.session.user.id != req.body.author){
+        // console.log(knex('contributors')
+        // .insert({
+        //   user_id: req.session.user.id,
+        //   list_id: req.body.listid
+        // }).toString());
+
+        knex('contributors')
+        .insert({
+          user_id: req.session.user.id,
+          list_id: req.body.listid
+        }).then(()=>{
+          res.send(ptDetails);
+        });
+      } else {
         res.send(ptDetails);
-      })
-
-
+      }
+    })
   })
 
   router.post("/deletepoint", (req, res) => {
@@ -112,7 +127,7 @@ module.exports = (knex) => {
     //console.log(req.params.listid);
     //res.redirect("/api/users/"+req.params.listid+"/addpoints");
     knex
-    .column('id','title','description','privacy')
+    .column('id','title','description','privacy','user_id')
     .where({id:req.params.listid})
     .select()
     .from('lists')
@@ -124,29 +139,34 @@ module.exports = (knex) => {
       .from('points')
       .then((pts) => {
         //console.log(rows.length);
-        res.render("newlist",{listid: row[0].id,title: row[0].title, desc: row[0].description, privacy: row[0].privacy, points: pts, cookie: req.session.user});
+        res.render("newlist",{listid: row[0].id,title: row[0].title, desc: row[0].description, privacy: row[0].privacy, author:row[0].user_id, points: pts, cookie: req.session.user});
       });
     })
   });
 
-  router.get("/:listid/getpoints", (req, res) => {
-    //  console.log( knex
-    // .column('id','name','description','address')
-    // .where({list_id:req.params.listid})
-    // .select()
-    // .from('points').toString());
+  router.post("/deletelist", (req,res) => {
+    // console.log(knex('points')
+    // .where("list_id",req.body.id)
+    // .del().toString());
 
-     knex
-    .column('id','name','description','address')
-    .where({list_id:req.params.listid})
-    .select()
-    .from('points')
-    .then((rows) => {
-      console.log(rows.length);
-      res.send(rows);
-    });
-  });
+    knex('points')
+    .where("list_id",req.body.id)
+    .del()
+    .then(()=>{
 
+      // console.log(knex('lists')
+      // .where("id",req.body.id)
+      // .del().toString());
+
+      knex('lists')
+      .where("id",req.body.id)
+      .del()
+      .then(() => {
+        res.statusCode = 200;
+        res.send("deleted");
+      })
+    })
+  })
   return router;
 
 }

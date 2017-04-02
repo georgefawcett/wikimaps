@@ -149,14 +149,19 @@
                 </div>
 
                 <div class = "form-group">
-                  <label for="visibility">Visibility</label>&nbsp;&nbsp;
+                  <label for="visibility">Visibility</label>
+                  <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-html="true" title="<em>Public</em>: Anyone can view and edit the list <br> <em>Private</em>: Anyone can view but not edit the list <br><em>Only Me</em>: Only you can view and edit the list" data-align="left"></i>
+                  &nbsp;&nbsp;
                   <label class="radio-inline"><input class="radio-inline" type="radio" name="visibility" value="0">Public</label>
                   <label class="radio-inline"><input class="radio-inline" type="radio" name="visibility" value="1">Private</label>
+                  <label class="radio-inline"><input class="radio-inline" type="radio" name="visibility" value="2">Only Me</label>
                 </div>
 
                 <div class = "form-group">
-                   <p class = "help-block">upload image</p>
-                   <input type = "file" id = "inputfile">
+                   <!-- <p class = "help-block">provide the image URL below</p>
+                   <input type = "file" id = "inputfile"> -->
+                   <label for = "url">Image URL</label>
+                   <input type = "text" class = "form-control" id = "listImageURL" placeholder = "Provide the https://.... URL of the image">
                 </div>
 
                 <button id="createListButton" type = "submit" class = "btn btn-default">Submit</button>
@@ -167,3 +172,8 @@
        </div><!-- /.modal-dialog -->
 
     </div><!-- /.modal -->
+    <script type="text/javascript">
+      $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+    </script>

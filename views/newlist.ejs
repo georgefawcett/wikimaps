@@ -7,6 +7,7 @@
   <body onload = "initMap()">
   <%- include partials/_navbar%>
 
+
   <table id="display">
   <tr><td>
 
@@ -23,6 +24,7 @@
         <div style="height: 460px; overflow:scroll">
 
     <div id="rightpane" data-list-id="<%= listid %>">
+
       <table class="list">
        <tr>
          <th style="border-right: 1px solid black">
@@ -37,7 +39,7 @@
          <p style="float:right">
 
 
- <%if(privacy === 0) {%>
+            <%if(privacy === 0) {%>
               public
             <% } else if(privacy === 1) {%>
               private
@@ -50,14 +52,13 @@
          </td>
        </tr>
 
+        <%for (var i = 0; i < points.length; i++) { %>
+        <tr class="listrow" style="border-right: 1px solid black" id= <%= points[i].id %> >
+          <td class="listrow">
 
-
-
-<%for (var i = 0; i < points.length; i++) { %>
-        <tr class="listrow" id=points[i].id>
-          <td class="listrow" style="border-right: 1px solid black">
             <font class="namefont">
               <%= points[i].name %>
+              <i class="fa fa-minus-circle delete-point" aria-hidden="true" style="color:red;float:right" onclick= "deletePoint(this,event)"></i>
             </font>
             <br>
             <font class="descfont">
@@ -81,11 +82,15 @@
 
       </table>
     </div>
+<<<<<<< HEAD
     </div>
   </div>
 
   </td>
   </tr>
+=======
+    </td></tr>
+>>>>>>> 6013e531b70952f4d6a788ea3b2f194884e09f17
   </table>
 </body>
 </html>

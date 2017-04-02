@@ -56,7 +56,8 @@ $('#savelistdiv').html('<font color="#cc2900"><i class="fa fa-bookmark-o" aria-h
       title: $("#listTitle").val(),
       desc: $("#listDesc").val(),
       privacy: $("input[name='visibility']:checked").val(),
-      date_created: new Date().toUTCString()
+      date_created: new Date().toUTCString(),
+      image_url: $("#listImageURL").val()
     }
     $.ajax({
       url: "/api/users/createlist",
@@ -98,6 +99,9 @@ function displayPoint(point){
   $font= $("<font>").addClass("addressfont").text(point.address);
   $td.append($font.append("<br>"));
 
+  $font= $("<font>").addClass("datefont").text(point.added_date);
+  $td.append($font.append("<br>"));
+
   $tr.append($td);
   $("#rightpane").find("table").append($tr);
 }
@@ -107,6 +111,18 @@ function editList(list_id){
   window.location.href="/api/users/"+ list_id + "/editList";
 }
 
+function deletelist(list_id){
+  if(confirm("Are you sure you want to delete the list ?")){
+    $.ajax({
+      url: "/api/users/deletelist",
+      type: "POST",
+      data:{id:list_id},
+      success:(res) => {
+        window.location.href="/";
+      }
+    });
+  }
+}
 
 let infowindow = null;
 let messagewindow = null;
@@ -126,10 +142,6 @@ function initMap() {
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
-
-
-
-
 
   // Bias the SearchBox results towards current map's viewport.
   map.addListener('bounds_changed', function() {
@@ -262,7 +274,8 @@ function initMap() {
         address: $("#pt-address").val(),
         added_date: new Date().toUTCString(),
         updated_date: new Date().toUTCString(),
-        listid: $('#rightpane').data('list-id')
+        listid: $('#rightpane').data('list-id'),
+        author: $('#rightpane').data('list-author')
       }
       //console.log(ptDetails);
 
@@ -272,23 +285,12 @@ function initMap() {
         data: ptDetails,
         success:(res) => {
           displayPoint(res[0]);
-          // $tr = $("<tr>").addClass("listrow").attr("id",res[0].id);
-          // $td = $("<td>").addClass("listrow");
-
-          // $font= $("<font>").addClass("namefont").text(res[0].name);
-          // $font.append("<i class=\"fa fa-minus-circle delete-point\" aria-hidden=\"true\" style=\"color:red;float:right\" onclick= \"deletePoint(this,event)\"></i>");
-          // $td.append($font.append("<br>"));
-
-          // $font= $("<font>").addClass("descfont").text(res[0].description);
-          // $td.append($font.append("<br>"));
-
-          // $font= $("<font>").addClass("addressfont").text(res[0].address);
-          // $td.append($font.append("<br>"));
-
-          // $tr.append($td);
-          // $("#rightpane").find("table").append($tr);
         }
-      })
+      });
+
+      // if($('#rightpane').data('list-author') != req.session.user.id){
+      //   alert("adding to contributions list");
+      // }
 
       $div = $("<div>").attr("id","message");
       $div.css("display","none");
