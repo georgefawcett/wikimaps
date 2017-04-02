@@ -68,7 +68,6 @@ function timeSince(date) {
 
  return Math.floor(difference_years) === 1 ? '1 year ago' : `${Math.floor(difference_years)} year ago`;
 }
-
 function timeFormat(date) {
   var monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
@@ -334,7 +333,6 @@ Private List
 // and format output accordingly
 
 for (i = 0; i < activity.length; i++) {
-
 if (activity[i].id === user.id) {
           activity[i].name = "You";
           }
