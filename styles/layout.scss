@@ -160,19 +160,18 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
       /* overflow to handle inner floating block */
       overflow: hidden;
       min-height: 100%;
-      min-width:100%;
+
 
   }
 
   #leftpane {
       float: left;
-      min-width: 50%;
       min-height: 100%;
 
   }
 
   #rightpane {
-      float: right;
+
       min-width: 50%;
       min-height: 100%;
   }
@@ -334,6 +333,7 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
       padding: 12px;
       border-top-right-radius: 10px;
     }
+
     .viewonly {
       height: 75px;
       background-color: #ffb84d;
@@ -341,11 +341,11 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
       font-size: 75%;
       line-height: 15px;
       padding: 12px;
-      opacity: 0.3;
+
     }
-     .viewonly:hover {
+     /*.viewonly:hover {
         opacity: 1;
-      }
+      }*/
 
     .private {
       height: 75px;
@@ -354,12 +354,12 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
       font-size: 75%;
       line-height: 15px;
       padding: 12px;
-      opacity: 0.3;
+
       border-bottom-right-radius: 10px;
     }
-    .private:hover {
+    /*.private:hover {
         opacity: 1;
-      }
+      }*/
   }
   #listPhoto {
     width: 120px;
@@ -489,11 +489,63 @@ background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.0980392) 25%, rgba(0,0,0
   background-color: white;
   color: #cc2900;
   font-weight: bold;
-  letter-spacing: 1px;
+
 }
 .savedList:hover {
   color: #cc2900;
 }
+
+
+.publicTab {
+  text-align: center;
+      width: 110px;
+      height: 30px;
+      background-color: #47d147;
+      color: white;
+      font-size: 75%;
+      padding: 12px;
+      border-radius: 5px;
+      opacity: 0.7;
+      margin-right: 10px;
+    }
+    .viewOnlyTab {
+  text-align: center;
+   width: 110px;
+      height: 30px;
+      background-color: #ffb84d;
+      color: white;
+      font-size: 75%;
+      padding: 12px;
+      border-radius: 5px;
+      opacity: 0.7;
+      margin-right: 10px;
+    }
+    .privateTab {
+  text-align: center;
+   width: 110px;
+      height: 30px;
+      background-color: #bb99ff;
+      color: white;
+      font-size: 75%;
+      padding: 12px;
+      border-radius: 5px;
+      opacity: 0.7;
+      margin-right: 10px;
+    }
+
+#errortable {
+  width: 95%;
+  border: 1px solid black;
+  padding: 50px;
+  margin-top: 100px;
+  background-color: white;
+  color: black;
+  font-size: 110%;
+  text-align: center;
+}
+
+
+
 .featured {
   background-color: white;
 margin-top: 8px;

@@ -5,8 +5,12 @@ $(document).ready(function(){
 
 $('#savelistdiv').click(function() {
 
-  $('#savelistdiv').addClass("savedList");
-  $('#savelistdiv').html("Saved");
+  $('#savelistdiv').toggleClass("savedList");
+  if ($('#savelistdiv').html() === '<font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark') {
+    $("#savelistdiv").html('<font color="#cc2900"><i class="fa fa-bookmark" aria-hidden="true"></i></font> &nbsp;Bookmarked');
+  } else {
+$('#savelistdiv').html('<font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark');
+}
 
   console.log(list[0].title);
   $.ajax({

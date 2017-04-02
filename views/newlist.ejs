@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Create New List</title>
+    <title>WikiMaps: Lists</title>
     <%- include partials/_header%>
   </head>
   <body onload = "initMap()">
   <%- include partials/_navbar%>
+
+  <table id="display">
+  <tr><td>
+
   <div id="maindiv" >
     <div id="leftpane">
-      <div id="map" style="width: 600px;height:500px; margin-left:10px;"></div>
+      <div id="map" class="map"></div>
       <input id="pac-input" class="controls" type="text" placeholder="Search Box" style="width:380px;height:30px;font-size:1.5em;">
     </div>
+
+    </div>
+    </td>
+    <td align="left" valign="top" width="500">
+
+        <div style="height: 460px; overflow:scroll">
+
     <div id="rightpane" data-list-id="<%= listid %>">
       <table class="list">
        <tr>
-         <th>
+         <th style="border-right: 1px solid black">
 
             <%=title%>
             <i class="fa fa-trash-o" aria-hidden="true" style="float:right;" onclick="deletelist(<%=listid%>)"></i>
@@ -22,7 +33,7 @@
          </th>
        </tr>
        <tr>
-         <td class="secondrow" colspan="2"><p style="float:left;"><%=desc%></p>
+         <td class="secondrow" colspan="2"><%=desc%>
          <p style="float:right">
 
 
@@ -44,7 +55,7 @@
 
 <%for (var i = 0; i < points.length; i++) { %>
         <tr class="listrow" id=points[i].id>
-          <td class="listrow">
+          <td class="listrow" style="border-right: 1px solid black">
             <font class="namefont">
               <%= points[i].name %>
             </font>
@@ -70,6 +81,11 @@
 
       </table>
     </div>
+    </div>
   </div>
+
+  </td>
+  </tr>
+  </table>
 </body>
 </html>

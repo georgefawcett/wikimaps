@@ -1,7 +1,7 @@
   <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
+    <title>WikiMaps: Lists</title>
 
  <%- include partials/_header %>
 
@@ -111,21 +111,35 @@ if (points.length === 0) {
 
           <%=list[0].title %>
           <%
+          // If the list belongs to the user, change author name to "you"
+
+          if (cookie && list[0].id === cookie.id) {
+          list[0].id = "you";
+          }
+
+
           // Make sure list either belongs to user or is public-editable before displaying edit button
-          if (list[0].user_id === cookie.id || list[0].privacy === 0) {
+          if ((cookie && list[0].user_id === cookie.id) || list[0].privacy === 0 && cookie) {
           %>
             <i class="fa fa-pencil-square-o" aria-hidden="true" style="float:right; position: relative; top: 3px" onclick="editList(<%=list[0].id%>)" onMouseOver="this.style.cursor='pointer'"></i>
             <%
             } // end if - editable
             %>
-            <div class="saveList" id="savelistdiv">
-            <font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Save this list
-            </div>
+            <%
+            // Display bookmark link only if user is logged in
+            if (cookie) {
+            %>
+            <div class="saveList" id="savelistdiv"><font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark</div>
+            <%
+            }
+            %>
           </th>
         </tr>
         <tr>
           <td class="secondrow" colspan="2">
-          <b><%= points.length%></b> locations&nbsp&nbsp;&nbsp;|&nbsp&nbsp;&nbsp;Created by <b>you</b> on <%=timeFormat(list[0].date_created)%>
+          <b><%= points.length%></b> locations&nbsp&nbsp;&nbsp;|&nbsp&nbsp;&nbsp;Created by <b>
+          <%=list[0].name%>
+          </b> on <%=timeFormat(list[0].date_created)%>
           </td>
         </tr>
         <%
@@ -175,19 +189,47 @@ if (points.length === 0) {
 
   <table id="privacy">
     <tr>
+    <%
+    // Adjust opacity of privacy display based on setting
+    if (list[0].privacy === 0) {
+    %>
       <td class="public">
+    <% } else {
+    %>
+      <td class="public" style="opacity: 0.25">
+      <%
+    }
+    %>
         <b>Public List</b><br>
         Public can view and edit
       </td>
     </tr>
     <tr>
+    <%
+       if (list[0].privacy === 1) {
+    %>
       <td class="viewonly">
+    <% } else {
+    %>
+      <td class="viewonly" style="opacity: 0.25">
+      <%
+    }
+    %>
         <b>View Only</b><br>
         Public can view only
       </td>
     </tr>
     <tr>
+    <%
+       if (list[0].privacy === 2) {
+    %>
       <td class="private">
+    <% } else {
+    %>
+      <td class="private" style="opacity: 0.25">
+      <%
+    }
+    %>
         <b>Private</b><br>
         Only you can see this list
       </td>

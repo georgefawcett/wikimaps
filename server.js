@@ -68,20 +68,10 @@ app.get("/", (req, res) => {
   }
 });
 
-app.get("/home", (req, res) => {
-  if (req.session.user) {
-    const templateVars = { cookie: req.session.user };
-    res.render("dashboard", templateVars);
-  } else {
-  res.redirect("/login");
-  }
-});
 
 
-// Login page - form
-app.get("/login", (req, res) => {
-  res.render("login");
-});
+
+
 
 // Login page - action
 
@@ -93,17 +83,19 @@ app.post("/login", (req, res) => {
       .where("email", req.body.email)
       .then(function(results) {
         const bcrypt = require('bcrypt');
-        if (bcrypt.compareSync(req.body.password, results[0].password)) {
+      //If missing login info or if password does not match
+
+
+     if ((!req.body.email || !req.body.password) || !bcrypt.compareSync(req.body.password, results[0].password)) {
+             const templateVars = { errorType: "wronglogin", cookie: req.session.user  };
+        res.status(403).render("error", templateVars);
+      } else {
 
           req.session.user = {"id": results[0].id,
                               "name": results[0].name
                             };
 
           res.redirect("/");
-         } else {
-          const templateVars = { errorType: "wronglogin" };
-        res.status(403).render("error", templateVars);
-
          }
 
 
@@ -113,20 +105,33 @@ app.post("/login", (req, res) => {
 
 // List page
 app.get("/lists/:listID", (req, res) => {
-  knex
-      .select("*")
-      .from("lists")
-      .where("id", req.params.listID)
-      .then((listresults) => {
+
+  knex('lists')
+  .join('users', 'users.id', 'lists.user_id')
+  .select ('lists.id', 'lists.title', 'lists.privacy', 'lists.description', 'lists.image', 'lists.user_id', 'lists.date_created', 'users.name')
+  .where ('lists.id', req.params.listID)
+  .then((listresults) => {
             knex
             .select("*")
             .from("points")
             .where("list_id", req.params.listID)
                 .then((results) => {
-                              const templateVars = { cookie: req.session.user,
+                  if (!req.session.user && listresults[0].privacy ===2) {
+                    const templateVarsErr = {errorType: "wronguser", cookie: req.session.user};
+                        res.status(403).render("error", templateVarsErr);
+                        } else {
+                      const templateVars = { cookie: req.session.user,
                                 points: results,
                                 list: listresults };
+                        // Make sure private list isn't being accessed by another user
+                        // if (list[0].id != cookie.id && list[0].privacy === 2) {
+                        //     const templateVarsErr = {errorType: "wronguser", cookie: req.session.user};
+                        //     res.status(403).render("error", templateVarsErr);
+                        // } else {
+
                         res.render("lists", templateVars);
+                      // }
+                    }
                   });
 
         });
@@ -149,9 +154,12 @@ console.log (templateVars);
   templateVars.user = userResults[0];
   }),
 
+
+
   knex.select("*").from("lists").where("user_id", req.params.userID).then((listResults) => {
   templateVars.list = listResults;
   }),
+
 
   // Join query to get title of lists user has contributed to
   knex('contributors')
@@ -205,7 +213,7 @@ console.log (templateVars);
   });
 
 } else { // else if - not same logged-in user
-  const templateVars = {errorType: "wronguser"};
+  const templateVars = {errorType: "wronguser", cookie: req.session.user};
     res.status(403).render("error", templateVars);
 } // end if - same logged-in user
 });
@@ -224,7 +232,7 @@ app.get("/logout", (req, res) => {
 app.post("/register", (req, res) => {
 
   if (!req.body.name || !req.body.email || !req.body.password) {
-    const templateVars = { errorType: "missingreginfo" };
+    const templateVars = { errorType: "missingreginfo", cookie: req.session.user };
     res.status(400).render("error", templateVars);
   } else {
     const bcrypt = require('bcrypt');

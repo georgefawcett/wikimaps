@@ -1,7 +1,7 @@
   <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
+    <title>WikiMaps: Dashboard</title>
 
  <%- include partials/_header %>
 
@@ -16,7 +16,7 @@
 
 function timeSince(date) {
 
-    var seconds = Math.floor((new Date() - date) / 1000);
+    var seconds = Math.floor((new Date() - date) / 1000) + 500;
 
     var interval = Math.floor(seconds / 31536000);
 
@@ -38,10 +38,6 @@ function timeSince(date) {
     interval = Math.floor(seconds / 60);
     if (interval > 1) {
         return interval + " minutes ago";
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval = 1) {
-        return interval + " minute ago";
     }
     return Math.floor(seconds) + " seconds ago";
     }
@@ -96,7 +92,7 @@ var month = monthNames[date.getMonth()];
   <%= timeFormat(user.date_joined)%><br>
   <b>Lists Created:</b> <%= list.length %><br>
  <b>Public Edits:</b> <%= cont.length %><br>
- <b>Saved Lists:</b> <%= fav.length %><br>
+ <b>Bookmarked Lists:</b> <%= fav.length %><br>
   </font>
 
       </td>
@@ -112,7 +108,7 @@ var month = monthNames[date.getMonth()];
   <div style="height: 375px; overflow:scroll">
     <table class="list" width="100%">
       <tr>
-        <th height="10">
+        <th height="10" colspan="2">
           <i class="fa fa-address-book" aria-hidden="true"></i> My Lists
         </th>
       </tr>
@@ -161,7 +157,43 @@ You have not created any lists yet.
 <%=list[i].description%>
 <br>
 <font class="timeago">Created on <%=timeFormat(list[i].date_created)%></font>
-</td></tr>
+</td>
+
+<td class="listrow" valign="middle" align="right">
+
+<%
+// Display list privacy setting in coloured tab
+if (list[i].privacy === 0) {
+%>
+<div class="publicTab">
+<div style="position: relative; bottom: 4px">
+Public List
+</div>
+</div>
+<%
+} else if (list[i].privacy === 1) {
+%>
+<div class="viewOnlyTab">
+<div style="position: relative; bottom: 4px">
+Public View Only
+</div>
+</div>
+
+<%
+} else {
+%>
+<div class="privateTab">
+<div style="position: relative; bottom: 4px">
+Private List
+</div>
+</div>
+
+<%
+}
+%>
+
+</td>
+</tr>
   <%
 }
 } // end if- user has lists
@@ -179,7 +211,7 @@ You have not created any lists yet.
     <table class="list" width="100%" style="min-height: 250px">
       <tr>
         <th height="10">
-          <i class="fa fa-bookmark" aria-hidden="true"></i> Saved Lists
+          <i class="fa fa-bookmark" aria-hidden="true"></i> Bookmarked Lists
         </th>
       </tr>
 
@@ -192,7 +224,7 @@ You have not created any lists yet.
           <td class="listrow" align="center">
           <br>
           <font style="font-size: 125%">
-          You have not created any lists yet.
+          You have not bookmarked any lists yet.
           </font>
           <br><br>
           </td>
@@ -210,7 +242,7 @@ You have not created any lists yet.
           fav[i].name = "you";
           }
           %>
-        <tr><td class="listrow">
+        <tr><td class="listrow" valign="top">
 
               <%
               if (fav[i].image) {
@@ -303,7 +335,7 @@ if (activity[i].listid) {
 
 <br>
  <font style="font-size: 110%">
-<a href="/lists/<%=activity[i].id%>"><%=activity[i].title%></a>
+<a href="/lists/<%=activity[i].listid%>"><%=activity[i].title%></a>
 </font>
 <br>
 <font class="timeago">
@@ -338,7 +370,7 @@ if (activity[i].listid) {
         </th>
       </tr>
       <tr>
-        <td>
+        <td valign="top">
 
 <ul>
       <%
@@ -348,7 +380,7 @@ if (activity[i].listid) {
           <tr>
           <td class="listrow" align="center" valign="top">
           <br>
-          You have not contributed to anyone's lists yet.
+          You have not contributed to any lists yet.
           <br><br>
           </td>
           </tr>
@@ -397,11 +429,8 @@ You contributed on <%=timeFormat(cont[i].date_created)%>
   </td>
 
 
-
   </tr>
   </table>
-
-
 
 
 

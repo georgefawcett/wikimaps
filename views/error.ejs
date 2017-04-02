@@ -1,22 +1,43 @@
-No!
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include partials/_header%>
+    <link href="/styles/layout.css" rel="stylesheet">
+    <title>WikiMaps: Error</title>
+  </head>
+
+  <body>
+
+    <%- include partials/_navbar%>
+
+<table width="95%" align="center">
+<tr><td id="errortable">
+<font color="red"><b>Error:</b></font>
+
 <%
 if (errorType === "wronguser") {
   %>
-  wrong user!
+  You do not have access to this page.  Please log in.
 
   <%
 } else if (errorType === "wronglogin") {
 %>
 
-wrong password!
+The e-mail/password combination you entered is incorrect.
 
 <%
 
 } else if (errorType === "missingreginfo") {
 %>
 
-missing registration info!
+You did not complete the required registration info.  Please try again.
 
 <%
 }
 %>
+
+
+ <%- include partials/_footer %>
+ </td></tr></table>
+  </body>
+</html>
