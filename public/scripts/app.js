@@ -79,6 +79,9 @@ function displayPoint(point){
   $font= $("<font>").addClass("addressfont").text(point.address);
   $td.append($font.append("<br>"));
 
+  $font= $("<font>").addClass("datefont").text(point.added_date);
+  $td.append($font.append("<br>"));
+
   $tr.append($td);
   $("#rightpane").find("table").append($tr);
 }
@@ -107,10 +110,6 @@ function initMap() {
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
-
-
-
-
 
   // Bias the SearchBox results towards current map's viewport.
   map.addListener('bounds_changed', function() {
@@ -253,21 +252,6 @@ function initMap() {
         data: ptDetails,
         success:(res) => {
           displayPoint(res[0]);
-          // $tr = $("<tr>").addClass("listrow").attr("id",res[0].id);
-          // $td = $("<td>").addClass("listrow");
-
-          // $font= $("<font>").addClass("namefont").text(res[0].name);
-          // $font.append("<i class=\"fa fa-minus-circle delete-point\" aria-hidden=\"true\" style=\"color:red;float:right\" onclick= \"deletePoint(this,event)\"></i>");
-          // $td.append($font.append("<br>"));
-
-          // $font= $("<font>").addClass("descfont").text(res[0].description);
-          // $td.append($font.append("<br>"));
-
-          // $font= $("<font>").addClass("addressfont").text(res[0].address);
-          // $td.append($font.append("<br>"));
-
-          // $tr.append($td);
-          // $("#rightpane").find("table").append($tr);
         }
       })
 

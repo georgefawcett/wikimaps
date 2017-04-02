@@ -77,7 +77,7 @@ module.exports = (knex) => {
     //   }).toString()));
 
       knex("points")
-      .returning(['id','name','description','address'])
+      .returning(['id','name','description','address','added_date'])
       .insert({
         x: req.body.x,
         y: req.body.y,
@@ -129,23 +129,23 @@ module.exports = (knex) => {
     })
   });
 
-  router.get("/:listid/getpoints", (req, res) => {
-    //  console.log( knex
-    // .column('id','name','description','address')
-    // .where({list_id:req.params.listid})
-    // .select()
-    // .from('points').toString());
+  // router.get("/:listid/getpoints", (req, res) => {
+  //   //  console.log( knex
+  //   // .column('id','name','description','address')
+  //   // .where({list_id:req.params.listid})
+  //   // .select()
+  //   // .from('points').toString());
 
-     knex
-    .column('id','name','description','address')
-    .where({list_id:req.params.listid})
-    .select()
-    .from('points')
-    .then((rows) => {
-      console.log(rows.length);
-      res.send(rows);
-    });
-  });
+  //    knex
+  //   .column('id','name','description','address')
+  //   .where({list_id:req.params.listid})
+  //   .select()
+  //   .from('points')
+  //   .then((rows) => {
+  //     console.log(rows.length);
+  //     res.send(rows);
+  //   });
+  // });
 
   return router;
 
