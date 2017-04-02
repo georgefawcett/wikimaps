@@ -199,7 +199,7 @@ console.log (templateVars);
 
   knex('lists')
   .join('users', 'lists.user_id', 'users.id')
-  .select ('lists.id as listid', 'lists.title', 'lists.date_created', 'users.name', 'users.id')
+  .select ('lists.id as list_id', 'lists.title', 'lists.date_created', 'users.name', 'users.id')
   .where('lists.privacy', 0).orWhere('lists.privacy', 1)
   .orderBy('lists.date_created', 'desc')
   .limit(5)
