@@ -307,7 +307,7 @@ Private List
 // and format output accordingly
 
 for (i = 0; i < activity.length; i++) {
-
+console.log(activity[i])
 if (activity[i].id === user.id) {
           activity[i].name = "You";
           }
@@ -335,7 +335,7 @@ if (activity[i].listid) {
 
 <br>
  <font style="font-size: 110%">
-<a href="/lists/<%=activity[i].listid%>"><%=activity[i].title%></a>
+<a href="/lists/<%=activity[i].list_id%>"><%=activity[i].title%></a>
 </font>
 <br>
 <font class="timeago">
