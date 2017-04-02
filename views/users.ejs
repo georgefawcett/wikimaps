@@ -15,7 +15,8 @@
 // Function to convert timestamp to number of minutes, etc ago
 
 function timeSince(date) {
-
+    console.log(new Date());
+    //console.log(date);
     var seconds = Math.floor((new Date() - date) / 1000) + 500;
 
     var interval = Math.floor(seconds / 31536000);
@@ -307,7 +308,7 @@ Private List
 // and format output accordingly
 
 for (i = 0; i < activity.length; i++) {
-console.log(activity[i])
+//console.log(activity[i])
 if (activity[i].id === user.id) {
           activity[i].name = "You";
           }
