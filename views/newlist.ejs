@@ -18,24 +18,29 @@
       <table class="list">
        <tr>
          <th>
+
             <%=title%>
             <i class="fa fa-trash-o" aria-hidden="true" style="float:right;" onclick="deletelist(<%=listid%>)"></i>
+
          </th>
        </tr>
        <tr>
          <td class="secondrow" colspan="2"><p style="float:left;"><%=desc%></p>
          <p style="float:right">
-           <%if(privacy === 0) {%>
+
+
+ <%if(privacy === 0) {%>
               public
             <% } else if(privacy === 1) {%>
               private
             <% } else { %>
               only me
             <%}%>
+
+
           </p>
          </td>
        </tr>
-
         <%for (var i = 0; i < points.length; i++) { %>
         <tr class="listrow" id= <%= points[i].id %> >
           <td class="listrow">
@@ -58,6 +63,11 @@
           </td>
         </tr>
         <% } %>
+
+
+
+
+
       </table>
     </div>
     </td></tr>
