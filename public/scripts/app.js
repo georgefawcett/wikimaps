@@ -9,7 +9,7 @@ $('#savelistdiv').click(function() {
  $('#savelistdiv').toggleClass("savedList");
  if ($('#savelistdiv').html() === '<font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark') {
    $("#savelistdiv").html('<font color="#cc2900"><i class="fa fa-bookmark" aria-hidden="true"></i></font> &nbsp;Bookmarked');
-   alert("saving into favourites!")
+   //alert("saving into favourites!")
    $.ajax({
      url: "/api/users/savefavourite",
      type: "POST",
@@ -17,7 +17,7 @@ $('#savelistdiv').click(function() {
    });
  } else {
    $('#savelistdiv').html('<font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark');
-   alert("unsave!!")
+   //alert("unsave!!")
  }
 });
 

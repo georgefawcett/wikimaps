@@ -9,23 +9,23 @@
 
 
   <table id="display">
-  <tr><td>
+  <tr><td valign="top" width="685">
 
   <div id="maindiv" >
     <div id="leftpane">
       <div id="map" class="map"></div>
-      <input id="pac-input" class="controls" type="text" placeholder="Search Box" style="width:380px;height:30px;font-size:1.5em;">
+      <input id="pac-input" class="controls" type="text" placeholder="Search and Click on marker to add.." style="width:380px;height:30px;font-size:1.5em;">
     </div>
 
     </div>
     </td>
-    <td align="left" valign="top" width="500">
+    <td align="left" valign="top">
 
         <div style="height: 460px; overflow:scroll">
 
     <div id="rightpane" data-list-id="<%= listid %>">
 
-      <table class="list">
+      <table class="list" style="width:420px;">
        <tr>
          <th style="border-right: 1px solid black">
 
@@ -85,6 +85,56 @@
     </div>
   </div>
 
+  </td>
+  <td valign="top">
+    <table id="privacy">
+     <tr>
+     <%
+     // Adjust opacity of privacy display based on setting
+     if (privacy === 0) {
+     %>
+       <td class="public">
+     <% } else {
+     %>
+       <td class="public" style="opacity: 0.25">
+       <%
+     }
+     %>
+         <b>Public List</b><br>
+         Public can view and edit
+       </td>
+     </tr>
+     <tr>
+     <%
+        if (privacy === 1) {
+     %>
+       <td class="viewonly">
+     <% } else {
+     %>
+       <td class="viewonly" style="opacity: 0.25">
+       <%
+     }
+     %>
+         <b>View Only</b><br>
+         Public can view only
+       </td>
+     </tr>
+     <tr>
+     <%
+        if (privacy === 2) {
+     %>
+       <td class="private">
+     <% } else {
+     %>
+       <td class="private" style="opacity: 0.25">
+       <%
+     }
+     %>
+         <b>Private</b><br>
+         Only you can see this list
+       </td>
+     </tr>
+   </table>
   </td>
   </tr>
   </table>
