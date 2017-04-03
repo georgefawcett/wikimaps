@@ -1,27 +1,34 @@
-# Node Skeleton
+# wikiMaps
 
-## Project Setup
+## About
 
-1. Create your own empty repo on GitHub
-2. Clone this repository (do not fork)
-  - Suggestion: When cloning, specify a different folder name that is relevant to your project
-3. Remove the git remote: `git remote rm origin`
-4. Add a remote for your origin: `git remote add origin <your github repo URL>`
-5. Push to the new origin: `git push -u origin master`
-6. Verify that the skeleton code now shows up in your repo on GitHub
+An application for users to create, share, and edit lists of locations, using Javascript, Express, and the Google Maps API.
 
-## Getting Started
+## Setup
 
-1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
-2. Update the .env file with your correct local information
-3. Install dependencies: `npm i`
-4. Fix to binaries for sass: `npm rebuild node-sass`
-5. Run migrations: `npm run knex migrate:latest`
-  - Check the migrations folder to see what gets created in the DB
-6. Run the seed: `npm run knex seed:run`
-  - Check the seeds file to see what gets seeded in the DB
-7. Run the server: `npm run local`
-8. Visit `http://localhost:8080/`
+The database and application are being hosted on Heroku - the website is accessible at https://shrouded-shelf-81582.herokuapp.com/.
+
+You can register as a new user or use a sample user with some data, george@test.com (password: password).
+
+## Features
+
+### Dynamic Mapping
+- Users can start creating lists (or edit an existing one) and instantly add, edit, and delete points with Ajax-generated list table connected to the map and database updates.
+
+### User Dashboards
+- Personal user pages featuring profile information, lists created and contributed to, bookmarked lists, and public activity feed, with labelled and scrollable divs.
+
+### Activity Feeds
+- A social network-style timeline featuring all recent public activity, including new lists and contributions, combined and sorted by most recent activity, with links to lists.
+
+### 3 Privacy Settings
+- Users can choose whether their lists can be edited by other users, viewed (only) by the public, or viewable only to themselves.
+
+### Google Maps customization
+- When viewing lists, Google Maps markers drop into place and are labelled by letter along with their associated table row.  Google Search Box also allows easy addition of points with autocomplete of places and addresses.
+
+### Easy forms and buttons
+- Users have clear and simple buttons and icons to bookmark, create, edit, and delete lists, as well as Bootstrap pop-up forms for logging in, registering, and starting new lists.
 
 ## Dependencies
 

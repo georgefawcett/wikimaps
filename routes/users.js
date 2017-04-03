@@ -169,6 +169,9 @@ module.exports = (knex) => {
     })
   })
 
+
+// Queries to add/remove bookmarks (favourites)
+
   router.post("/savefavourite", (req,res) => {
     knex('favourites')
     .insert({
@@ -179,6 +182,19 @@ module.exports = (knex) => {
       res.send("success");
     });
   })
+
+
+    router.post("/deletefavourite", (req,res) => {
+    knex('favourites')
+    .where('user_id', req.session.user.id)
+    .andWhere('list_id', req.body.id)
+    .del()
+    .then(() => {
+      res.send("success");
+    });
+  })
+
+
   return router;
 
 }

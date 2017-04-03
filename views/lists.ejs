@@ -126,11 +126,21 @@ if (points.length === 0) {
             } // end if - editable
             %>
             <%
+
+
             // Display bookmark link only if user is logged in
+            // If logged-in user has already bookmarked list, start toggle with Unbookmark
+
             if (cookie) {
+              if (bookmark[0].count === "0") {
             %>
             <div class="saveList" id="savelistdiv"><font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark</div>
             <%
+              } else {
+            %>
+            <div class="saveList savedList" id="savelistdiv"><font color="#cc2900"><i class="fa fa-bookmark" aria-hidden="true"></i></font> &nbsp;Unbookmark</div>
+            <%
+              }
             }
             %>
           </th>
