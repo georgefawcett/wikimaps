@@ -30,8 +30,9 @@
          <th style="border-right: 1px solid black">
 
             <%=title%>
-            <i class="fa fa-trash-o" aria-hidden="true" style="float:right;"  onMouseOver="this.style.cursor='pointer'" onclick="deletelist(<%=listid%>)"></i>
-
+            <% if (author == cookie.id) { %>
+              <i class="fa fa-trash-o" aria-hidden="true" style="float:right;"  onMouseOver="this.style.cursor='pointer'" onclick="deletelist(<%=listid%>)"></i>
+            <%}%>
          </th>
        </tr>
 
