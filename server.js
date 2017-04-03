@@ -161,7 +161,7 @@ console.log (templateVars);
 
 
 
-  knex.select("*").from("lists").where("user_id", req.params.userID).then((listResults) => {
+  knex.select("*").from("lists").where("user_id", req.params.userID).orderBy("date_created", "desc").then((listResults) => {
   templateVars.list = listResults;
   }),
 
