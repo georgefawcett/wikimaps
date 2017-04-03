@@ -4,6 +4,7 @@
 $(document).ready(function(){
 
 
+// Toggle bookmark/unbookmark functions/displays
 
 $('#savelistdiv').click(function() {
  $('#savelistdiv').toggleClass("savedList");
@@ -18,6 +19,11 @@ $('#savelistdiv').click(function() {
  } else {
    $('#savelistdiv').html('<font color="#cc2900"><i class="fa fa-bookmark-o" aria-hidden="true"></i></font> &nbsp;Bookmark');
    //alert("unsave!!")
+   $.ajax({
+     url: "/api/users/deletefavourite",
+     type: "POST",
+     data: {id: $("#bookmark-row").data('list-id')}
+   });
  }
 });
 

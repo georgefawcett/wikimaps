@@ -105,12 +105,20 @@ app.post("/login", (req, res) => {
 
 // List page
 app.get("/lists/:listID", (req, res) => {
-
+  if (!req.session.user) {
+    var userID = 0;
+  } else {
+    var userID = req.session.user.id;
+  }
   knex('lists')
   .join('users', 'users.id', 'lists.user_id')
   .select ('lists.id', 'lists.title', 'lists.privacy', 'lists.description', 'lists.image', 'lists.user_id', 'lists.date_created', 'users.name')
   .where ('lists.id', req.params.listID)
   .then((listresults) => {
+       knex('favourites').count('user_id')
+      .where ('user_id', userID)
+      .andWhere ('list_id', req.params.listID)
+      .then((favcount) => {
             knex
             .select("*")
             .from("points")
@@ -122,18 +130,15 @@ app.get("/lists/:listID", (req, res) => {
                         } else {
                       const templateVars = { cookie: req.session.user,
                                 points: results,
-                                list: listresults };
-                        // Make sure private list isn't being accessed by another user
-                        // if (list[0].id != cookie.id && list[0].privacy === 2) {
-                        //     const templateVarsErr = {errorType: "wronguser", cookie: req.session.user};
-                        //     res.status(403).render("error", templateVarsErr);
-                        // } else {
+                                list: listresults,
+                                bookmark: favcount };
+
 
                         res.render("lists", templateVars);
-                      // }
+
                     }
                   });
-
+              });
         });
 
 });

@@ -14,51 +14,48 @@
   <div id="maindiv" >
     <div id="leftpane">
       <div id="map" class="map"></div>
-      <input id="pac-input" class="controls" type="text" placeholder="Search and Click on marker to add.." style="width:380px;height:30px;font-size:1.5em;">
+      <input id="pac-input" class="controls" type="text" placeholder="Search and Click on marker to add..." style="width:380px;height:30px;font-size:1.5em;">
     </div>
 
     </div>
     </td>
-    <td align="left" valign="top">
+    <td align="left" valign="top" width="388">
 
         <div style="height: 460px; overflow:scroll">
 
     <div id="rightpane" data-list-id="<%= listid %>">
 
-      <table class="list" style="width:420px;">
+      <table class="list" width="100%">
        <tr>
          <th style="border-right: 1px solid black">
 
             <%=title%>
-            <i class="fa fa-trash-o" aria-hidden="true" style="float:right;" onclick="deletelist(<%=listid%>)"></i>
+            <i class="fa fa-trash-o" aria-hidden="true" style="float:right;"  onMouseOver="this.style.cursor='pointer'" onclick="deletelist(<%=listid%>)"></i>
 
          </th>
        </tr>
-       <tr>
-         <td class="secondrow" colspan="2"><%=desc%>
-         <p style="float:right">
 
 
-            <%if(privacy === 0) {%>
-              public
-            <% } else if(privacy === 1) {%>
-              private
-            <% } else { %>
-              only me
-            <%}%>
+        <%
+        function timeFormat(date) {
+        var monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
 
+        month = monthNames[date.getMonth()];
 
-          </p>
-         </td>
-       </tr>
+        var day = date.getDate();
 
-        <%for (var i = 0; i < points.length; i++) { %>
+        var year = date.getFullYear();
+        return month + ' ' + day + ', ' + year;
+        }
+
+        for (var i = 0; i < points.length; i++) { %>
         <tr class="listrow" style="border-right: 1px solid black" id= <%= points[i].id %> >
           <td class="listrow">
 
             <font class="namefont">
               <%= points[i].name %>
-              <i class="fa fa-minus-circle delete-point" aria-hidden="true" style="color:red;float:right" onclick= "deletePoint(this,event)"></i>
+              <i class="fa fa-minus-circle delete-point" aria-hidden="true" style="color:red;float:right; margin-right: 5px" onclick= "deletePoint(this,event)"></i>
             </font>
             <br>
             <font class="descfont">
@@ -70,7 +67,7 @@
             </font>
             <br>
             <font class="datefont">
-              <%= points[i].added_date %>
+              Added on <%= timeFormat(points[i].added_date) %>
             </font>
           </td>
         </tr>
