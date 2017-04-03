@@ -40,7 +40,13 @@ $('#savelistdiv').click(function() {
 
 
      $("#createListButton").click(function(event){
-    event.preventDefault();
+
+      event.preventDefault();
+
+      if($("#listTitle").val()==""){
+        alert("Please enter the list name to proceed.");
+        return;
+      }
     let listDetails={
       title: $("#listTitle").val(),
       desc: $("#listDesc").val(),
@@ -204,7 +210,7 @@ function initMap() {
 
     let $pt_name = $("<input>").attr({type:"text", id:"pt-name"});
     $tr1 = $("<tr>");
-    $tr1.append($("<td>").text("Title: "));
+    $tr1.append($("<td>").text("Name: ").append($("<em>").css("color","red").text("*")));
     $tr1.append($("<td>").append($pt_name));
 
     $table = $("<table>");
@@ -256,6 +262,11 @@ function initMap() {
     infowindow.open(map, marker);
 
     $("#save-loc").click(() => {
+
+      if($("#pt-name").val() == ""){
+        alert("Please enter the name of the location to proceed.");
+        return;
+      }
 
       let ptDetails={
         x: marker.getPosition().lat(),
