@@ -1,4 +1,14 @@
+function timeFormat(date) {
+  var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
 
+var month = monthNames[date.getMonth()];
+
+  var day = date.getDate();
+
+  var year = date.getFullYear();
+  return month + ' ' + day + ', ' + year;
+}
 
 
 $(document).ready(function(){
@@ -63,6 +73,8 @@ function deletePoint(elem,event){
     }
   })
 }
+
+
 
 function displayPoint(point){
   $tr = $("<tr>").addClass("listrow").attr("id",point.id);
