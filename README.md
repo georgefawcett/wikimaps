@@ -2,29 +2,31 @@
 
 ## About
 
-An application for users to create, share, and edit lists of locations, using the Google Maps API.
+An application for users to create, share, and edit lists of locations, using Javascript, Express, and the Google Maps API.
 
 ## Setup
 
-The database and application are being hosted on Heroku - the website is accessible at https://shrouded-shelf-81582.herokuapp.com/.  As such, and given the amount of time spent setting up the Heroku database, there are no migration/seed data files in the repository.
+The database and application are being hosted on Heroku - the website is accessible at https://shrouded-shelf-81582.herokuapp.com/.  As such (and given the amount of time spent setting up the Heroku database) there are no migration/seed data files in the repository.
 
 ## Features
 
-### User registration and login
+### Dynamic Mapping
+- Users can start creating lists (or edit an existing one) and instantly add, edit, and delete points with Ajax-generated list table connected to the map, and real-time database queries.
 
-### User dashboards
+### User Dashboards
+- Personal user pages featuring profile information, lists created and contributed to, bookmarked lists, and public activity feed, with labelled and scrollable divs.
 
+### Activity Feeds
+- A social network-style timeline featuring all recent public activity, including new lists and contributions, combined and sorted by most recent activity, with links to relevant lists.
 
-1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
-2. Update the .env file with your correct local information
-3. Install dependencies: `npm i`
-4. Fix to binaries for sass: `npm rebuild node-sass`
-5. Run migrations: `npm run knex migrate:latest`
-  - Check the migrations folder to see what gets created in the DB
-6. Run the seed: `npm run knex seed:run`
-  - Check the seeds file to see what gets seeded in the DB
-7. Run the server: `npm run local`
-8. Visit `http://localhost:8080/`
+### 3 Privacy Settings
+- Users can choose whether their lists can be edited by other users, viewed (only) by the public, or viewable only to themselves.
+
+### Google Maps customization
+- When viewing lists, Google Maps markers drop into place and are labelled (by letter) along with their associated table row.  Google Search Box also allows easy addition of points with autocomplete of places and addresses.
+
+### Easy forms and buttons
+- Users have clear and simple buttons and icons to bookmark, create, edit, and delete lists, as well as Bootstrap pop-up forms for logging in, registering, and starting a new lists.
 
 ## Dependencies
 
