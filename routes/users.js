@@ -90,12 +90,13 @@ module.exports = (knex) => {
       address: req.body.address
     })
     .then((ptDetails) => {
+      console.log(req.session.user.id, req.body.author);
       if(req.session.user.id != req.body.author){
-        // console.log(knex('contributors')
-        // .insert({
-        //   user_id: req.session.user.id,
-        //   list_id: req.body.listid
-        // }).toString());
+        console.log(knex('contributors')
+        .insert({
+          user_id: req.session.user.id,
+          list_id: req.body.listid
+        }).toString());
 
         knex('contributors')
         .insert({

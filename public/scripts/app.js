@@ -250,7 +250,7 @@ function initMap() {
         listid: $('#rightpane').data('list-id'),
         author: $('#rightpane').data('list-author')
       }
-      //console.log(ptDetails);
+      console.log(ptDetails);
 
       $.ajax({
         url: "/api/users/addpoints",
