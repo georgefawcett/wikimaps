@@ -6,7 +6,9 @@ An application for users to create, share, and edit lists of locations, using Ja
 
 ## Setup
 
-The database and application are being hosted on Heroku - the website is accessible at https://shrouded-shelf-81582.herokuapp.com/.  As such (and given the amount of time spent setting up the Heroku database) there are no migration/seed data files in the repository.
+The database and application are being hosted on Heroku - the website is accessible at https://shrouded-shelf-81582.herokuapp.com/.
+
+You can register as a new user or use a sample user with some data, george@test.com (password: password).
 
 ## Features
 
